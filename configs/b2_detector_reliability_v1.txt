@@ -1,0 +1,10 @@
+How reliable the detected sounds are, measured on held-out recordings made the same way as these cases (for each detected sound and confidence range: the share of detections that were really there, and how many detections that share is based on):
+- phone ringing: below 0.50: 4% right (of 490); 0.50 to 0.70: 16% right (of 138); 0.70 to 0.90: 41% right (of 180); 0.90 to 0.99: 65% right (of 136); 0.99 or more: 97% right (of 686)
+- doorbell: below 0.50: 12% right (of 121); 0.50 to 0.70: 69% right (of 29); 0.70 to 0.90: 92% right (of 25); 0.90 to 0.99: 98% right (of 64); 0.99 or more: 99% right (of 386)
+- knocking: below 0.50: 8% right (of 126); 0.50 to 0.70: 22% right (of 23); 0.70 to 0.90: 65% right (of 43); 0.90 to 0.99: 78% right (of 49); 0.99 or more: 100% right (of 517)
+- footsteps: below 0.50: 15% right (of 115); 0.50 to 0.70: 29% right (of 28); 0.70 to 0.90: 48% right (of 27); 0.90 to 0.99: 67% right (of 86); 0.99 or more: 98% right (of 319)
+- a door opening or closing: below 0.50: 35% right (of 156); 0.50 to 0.70: 55% right (of 40); 0.70 to 0.90: 59% right (of 27); 0.90 to 0.99: 83% right (of 36); 0.99 or more: 100% right (of 84)
+- a cupboard or drawer: below 0.50: 10% right (of 49); 0.50 to 0.70: 33% right (of 30); 0.70 to 0.90: 61% right (of 51); 0.90 to 0.99: 74% right (of 66); 0.99 or more: 98% right (of 54)
+- a household sound: below 0.50: 2% right (of 260); 0.50 to 0.70: 4% right (of 51); 0.70 to 0.90: 24% right (of 37); 0.90 to 0.99: 47% right (of 43); 0.99 or more: 99% right (of 163)
+The detector also misses real sounds. Share of real sounds that got no detection at all:
+- phone ringing: 0% (of 857); doorbell: 2% (of 506); knocking: 1% (of 606); footsteps: 2% (of 1369); a door opening or closing: 21% (of 252); a cupboard or drawer: 1% (of 150); a household sound: 3% (of 200)

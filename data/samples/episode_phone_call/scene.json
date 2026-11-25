@@ -1,0 +1,607 @@
+{
+ "scene_id": "episode_phone_call",
+ "split": "train",
+ "part": "episode",
+ "part_title": "Episodes",
+ "title": "Phone call during an answer, with a question to the assistant in the middle of the call",
+ "description": "The user asks about photographing houseplants. While the assistant answers, a phone rings and the user picks up (stop). During the call the user turns to the assistant with a question (respond), then talks to the caller again (do not respond), and after the call asks the assistant another question (respond). The caller is never heard.",
+ "source_unit": "train_d02_ep_train_e0740",
+ "sample_rate": 16000,
+ "window_seconds": 8.0,
+ "room": "small-Room120",
+ "noise": {
+  "dataset": "DEMAND",
+  "environment": "OMEETING",
+  "channel": 1,
+  "offset_s": 158.78,
+  "snr_db": 18.76
+ },
+ "voices": {
+  "user": "af_river"
+ },
+ "assistant_voice_in_audio": false,
+ "licence": "CC BY-SA 3.0 (the mix contains DEMAND background noise); see CREDITS.md",
+ "versions": [
+  {
+   "version": "1",
+   "label": "the full scene",
+   "audio": "episode_phone_call/full.flac",
+   "duration_s": 56.649,
+   "mix_gain_db": 0.0,
+   "speech": [
+    {
+     "id": "u0",
+     "who": "user",
+     "text": "How can I take better pictures of my houseplants?",
+     "start": 1.9454,
+     "end": 4.4854,
+     "position": "near",
+     "level_db": -0.28,
+     "voice": "kokoro:af_river"
+    },
+    {
+     "id": "u4",
+     "who": "user",
+     "text": "Hey, honey. Are you still at the grocery store?",
+     "start": 9.3353,
+     "end": 11.6753,
+     "position": "across",
+     "level_db": -2.84,
+     "voice": "kokoro:af_river"
+    },
+    {
+     "id": "u6",
+     "who": "user",
+     "text": "Yeah.",
+     "start": 15.65,
+     "end": 16.37,
+     "position": "across",
+     "level_db": -3.27,
+     "voice": "kokoro:af_river"
+    },
+    {
+     "id": "u8",
+     "who": "user",
+     "text": "Could you grab some rice? Hold on a second, honey.",
+     "start": 19.3643,
+     "end": 21.7643,
+     "position": "across",
+     "level_db": -3.51,
+     "voice": "kokoro:af_river"
+    },
+    {
+     "id": "u9",
+     "who": "user",
+     "text": "For those houseplant pictures, should I use the flash?",
+     "start": 23.6025,
+     "end": 26.1425,
+     "position": "across",
+     "level_db": -5.41,
+     "voice": "kokoro:af_river"
+    },
+    {
+     "id": "u11",
+     "who": "user",
+     "text": "I'm back, honey. Did you find the rice?",
+     "start": 33.1673,
+     "end": 35.1673,
+     "position": "across",
+     "level_db": -5.42,
+     "voice": "kokoro:af_river"
+    },
+    {
+     "id": "u13",
+     "who": "user",
+     "text": "Really?",
+     "start": 38.9992,
+     "end": 39.8392,
+     "position": "across",
+     "level_db": -2.56,
+     "voice": "kokoro:af_river"
+    },
+    {
+     "id": "u15",
+     "who": "user",
+     "text": "Okay.",
+     "start": 43.8372,
+     "end": 44.7172,
+     "position": "across",
+     "level_db": -5.03,
+     "voice": "kokoro:af_river"
+    },
+    {
+     "id": "u17",
+     "who": "user",
+     "text": "How do I keep the leaves sharp in those pictures if my hands shake?",
+     "start": 46.4264,
+     "end": 49.5464,
+     "position": "across",
+     "level_db": -4.76,
+     "voice": "kokoro:af_river"
+    }
+   ],
+   "assistant": [
+    {
+     "text": "Place them near a window with soft, indirect light, and choose a simple background. Tap your camera screen to focus on an interesting leaf before taking the picture.",
+     "start": 5.2878,
+     "end": 11.8753,
+     "full_end": 13.2578,
+     "cut_off": true
+    },
+    {
+     "text": "Usually, no. Window light will look softer and help avoid shiny reflections on the leaves.",
+     "start": 26.942,
+     "end": 31.782,
+     "full_end": 31.782,
+     "cut_off": false
+    },
+    {
+     "text": "Rest your phone on a stable surface and use a short timer so tapping the shutter doesn't shake it.",
+     "start": 50.1586,
+     "end": 55.1486,
+     "full_end": 55.1486,
+     "cut_off": false
+    }
+   ],
+   "sounds": [
+    {
+     "id": "ring",
+     "class": "phone",
+     "clip_id": "117570",
+     "start": 6.2492,
+     "end": 8.5905,
+     "position": "across",
+     "level_db": 3.9
+    }
+   ],
+   "points": [
+    {
+     "id": "episode_phone_call|1|0",
+     "version": "1",
+     "k": 0,
+     "t": 11.8753,
+     "window": "episode_phone_call/v1_p0.flac",
+     "window_start": 3.8753,
+     "assistant_speaking": true,
+     "asks": [
+      "stop",
+      "respond"
+     ],
+     "gold": {
+      "stop": "stop",
+      "respond": "not"
+     },
+     "line": "u4",
+     "line_text": "Hey, honey. Are you still at the grocery store?",
+     "category": "pickup",
+     "front_end": {
+      "transcripts": {
+       "u0": "How can I take better pictures of my houseplants?",
+       "u4": "Hey honey, are you still at the grocery store?"
+      },
+      "speaker_score": {
+       "u0": 0.7144,
+       "u4": 0.665
+      },
+      "speaker_tag": {
+       "u0": "user",
+       "u4": "user"
+      },
+      "detected_sounds": [
+       {
+        "class": "phone",
+        "start": 6.08,
+        "end": 8.64,
+        "peak": 1.0
+       }
+      ]
+     },
+     "situation_text": "The assistant is talking right now (for 6.6 s). It is saying: \u00abPlace them near a window with soft, indirect light, and choose a simple background. Tap your camera screen to focus on an interesting leaf before taking the picture.\u00bb\nEarlier, oldest first:\n[1.9 s] the user: \u00abHow can I take better pictures of my houseplants?\u00bb\n[6.1 s] detected sound: phone ringing, 6.1 s to 8.6 s (confidence 1.00)\nJust now the user said: \u00abHey honey, are you still at the grocery store?\u00bb",
+     "questions": [
+      "S: should the assistant STOP or CONTINUE talking?",
+      "R: should the assistant RESPOND to the line just said, or NOT?"
+     ]
+    },
+    {
+     "id": "episode_phone_call|1|1",
+     "version": "1",
+     "k": 1,
+     "t": 16.57,
+     "window": "episode_phone_call/v1_p1.flac",
+     "window_start": 8.57,
+     "assistant_speaking": false,
+     "asks": [
+      "respond"
+     ],
+     "gold": {
+      "stop": null,
+      "respond": "not"
+     },
+     "line": "u6",
+     "line_text": "Yeah.",
+     "category": "away",
+     "front_end": {
+      "transcripts": {
+       "u0": "How can I take better pictures of my houseplants?",
+       "u4": "Hey honey, are you still at the grocery store?",
+       "u6": "Yeah."
+      },
+      "speaker_score": {
+       "u0": 0.7144,
+       "u4": 0.665,
+       "u6": 0.0993
+      },
+      "speaker_tag": {
+       "u0": "user",
+       "u4": "user",
+       "u6": "other"
+      },
+      "detected_sounds": [
+       {
+        "class": "phone",
+        "start": 6.08,
+        "end": 8.64,
+        "peak": 1.0
+       }
+      ]
+     },
+     "situation_text": "The assistant is not talking; it has been silent for 4.7 s.\nEarlier, oldest first:\n[1.9 s] the user: \u00abHow can I take better pictures of my houseplants?\u00bb\n[5.3 s] the assistant: \u00abPlace them near a window with soft, indirect light, and choose a simple background. Tap your camera screen to focus on an interesting leaf before taking the picture. (cut off)\u00bb\n[6.1 s] detected sound: phone ringing, 6.1 s to 8.6 s (confidence 1.00)\n[9.3 s] the user: \u00abHey honey, are you still at the grocery store?\u00bb\nJust now a voice that is not the user said: \u00abYeah.\u00bb",
+     "questions": [
+      "R: should the assistant RESPOND to the line just said, or NOT?"
+     ]
+    },
+    {
+     "id": "episode_phone_call|1|2",
+     "version": "1",
+     "k": 2,
+     "t": 21.9643,
+     "window": "episode_phone_call/v1_p2.flac",
+     "window_start": 13.9643,
+     "assistant_speaking": false,
+     "asks": [
+      "respond"
+     ],
+     "gold": {
+      "stop": null,
+      "respond": "not"
+     },
+     "line": "u8",
+     "line_text": "Could you grab some rice? Hold on a second, honey.",
+     "category": "away",
+     "front_end": {
+      "transcripts": {
+       "u0": "How can I take better pictures of my houseplants?",
+       "u4": "Hey honey, are you still at the grocery store?",
+       "u6": "Yeah.",
+       "u8": "Could you grab some rice? Hold on a second honey."
+      },
+      "speaker_score": {
+       "u0": 0.7144,
+       "u4": 0.665,
+       "u6": 0.0993,
+       "u8": 0.7108
+      },
+      "speaker_tag": {
+       "u0": "user",
+       "u4": "user",
+       "u6": "other",
+       "u8": "user"
+      },
+      "detected_sounds": [
+       {
+        "class": "phone",
+        "start": 6.08,
+        "end": 8.64,
+        "peak": 1.0
+       }
+      ]
+     },
+     "situation_text": "The assistant is not talking; it has been silent for 10.1 s.\nEarlier, oldest first:\n[1.9 s] the user: \u00abHow can I take better pictures of my houseplants?\u00bb\n[5.3 s] the assistant: \u00abPlace them near a window with soft, indirect light, and choose a simple background. Tap your camera screen to focus on an interesting leaf before taking the picture. (cut off)\u00bb\n[6.1 s] detected sound: phone ringing, 6.1 s to 8.6 s (confidence 1.00)\n[9.3 s] the user: \u00abHey honey, are you still at the grocery store?\u00bb\n[15.7 s] a voice that is not the user: \u00abYeah.\u00bb\nJust now the user said: \u00abCould you grab some rice? Hold on a second honey.\u00bb",
+     "questions": [
+      "R: should the assistant RESPOND to the line just said, or NOT?"
+     ]
+    },
+    {
+     "id": "episode_phone_call|1|3",
+     "version": "1",
+     "k": 3,
+     "t": 26.3425,
+     "window": "episode_phone_call/v1_p3.flac",
+     "window_start": 18.3425,
+     "assistant_speaking": false,
+     "asks": [
+      "respond"
+     ],
+     "gold": {
+      "stop": null,
+      "respond": "respond"
+     },
+     "line": "u9",
+     "line_text": "For those houseplant pictures, should I use the flash?",
+     "category": "mid",
+     "front_end": {
+      "transcripts": {
+       "u0": "How can I take better pictures of my houseplants?",
+       "u4": "Hey honey, are you still at the grocery store?",
+       "u6": "Yeah.",
+       "u8": "Could you grab some rice? Hold on a second honey.",
+       "u9": "For those houseplant pictures, should I use the flash?"
+      },
+      "speaker_score": {
+       "u0": 0.7144,
+       "u4": 0.665,
+       "u6": 0.0993,
+       "u8": 0.7108,
+       "u9": 0.633
+      },
+      "speaker_tag": {
+       "u0": "user",
+       "u4": "user",
+       "u6": "other",
+       "u8": "user",
+       "u9": "user"
+      },
+      "detected_sounds": [
+       {
+        "class": "phone",
+        "start": 6.08,
+        "end": 8.64,
+        "peak": 1.0
+       }
+      ]
+     },
+     "situation_text": "The assistant is not talking; it has been silent for 14.5 s.\nEarlier, oldest first:\n[1.9 s] the user: \u00abHow can I take better pictures of my houseplants?\u00bb\n[5.3 s] the assistant: \u00abPlace them near a window with soft, indirect light, and choose a simple background. Tap your camera screen to focus on an interesting leaf before taking the picture. (cut off)\u00bb\n[6.1 s] detected sound: phone ringing, 6.1 s to 8.6 s (confidence 1.00)\n[9.3 s] the user: \u00abHey honey, are you still at the grocery store?\u00bb\n[15.7 s] a voice that is not the user: \u00abYeah.\u00bb\n[19.4 s] the user: \u00abCould you grab some rice? Hold on a second honey.\u00bb\nJust now the user said: \u00abFor those houseplant pictures, should I use the flash?\u00bb",
+     "questions": [
+      "R: should the assistant RESPOND to the line just said, or NOT?"
+     ]
+    },
+    {
+     "id": "episode_phone_call|1|4",
+     "version": "1",
+     "k": 4,
+     "t": 35.3673,
+     "window": "episode_phone_call/v1_p4.flac",
+     "window_start": 27.3673,
+     "assistant_speaking": false,
+     "asks": [
+      "respond"
+     ],
+     "gold": {
+      "stop": null,
+      "respond": "not"
+     },
+     "line": "u11",
+     "line_text": "I'm back, honey. Did you find the rice?",
+     "category": "away",
+     "front_end": {
+      "transcripts": {
+       "u0": "How can I take better pictures of my houseplants?",
+       "u4": "Hey honey, are you still at the grocery store?",
+       "u6": "Yeah.",
+       "u8": "Could you grab some rice? Hold on a second honey.",
+       "u9": "For those houseplant pictures, should I use the flash?",
+       "u11": "I'm back honey, did you find the rice?"
+      },
+      "speaker_score": {
+       "u0": 0.7144,
+       "u4": 0.665,
+       "u6": 0.0993,
+       "u8": 0.7108,
+       "u9": 0.633,
+       "u11": 0.6386
+      },
+      "speaker_tag": {
+       "u0": "user",
+       "u4": "user",
+       "u6": "other",
+       "u8": "user",
+       "u9": "user",
+       "u11": "user"
+      },
+      "detected_sounds": [
+       {
+        "class": "phone",
+        "start": 6.08,
+        "end": 8.64,
+        "peak": 1.0
+       }
+      ]
+     },
+     "situation_text": "The assistant is not talking; it has been silent for 3.6 s.\nEarlier, oldest first:\n[1.9 s] the user: \u00abHow can I take better pictures of my houseplants?\u00bb\n[5.3 s] the assistant: \u00abPlace them near a window with soft, indirect light, and choose a simple background. Tap your camera screen to focus on an interesting leaf before taking the picture. (cut off)\u00bb\n[6.1 s] detected sound: phone ringing, 6.1 s to 8.6 s (confidence 1.00)\n[9.3 s] the user: \u00abHey honey, are you still at the grocery store?\u00bb\n[15.7 s] a voice that is not the user: \u00abYeah.\u00bb\n[19.4 s] the user: \u00abCould you grab some rice? Hold on a second honey.\u00bb\n[23.6 s] the user: \u00abFor those houseplant pictures, should I use the flash?\u00bb\n[26.9 s] the assistant: \u00abUsually, no. Window light will look softer and help avoid shiny reflections on the leaves.\u00bb\nJust now the user said: \u00abI'm back honey, did you find the rice?\u00bb",
+     "questions": [
+      "R: should the assistant RESPOND to the line just said, or NOT?"
+     ]
+    },
+    {
+     "id": "episode_phone_call|1|5",
+     "version": "1",
+     "k": 5,
+     "t": 40.0392,
+     "window": "episode_phone_call/v1_p5.flac",
+     "window_start": 32.0392,
+     "assistant_speaking": false,
+     "asks": [
+      "respond"
+     ],
+     "gold": {
+      "stop": null,
+      "respond": "not"
+     },
+     "line": "u13",
+     "line_text": "Really?",
+     "category": "away",
+     "front_end": {
+      "transcripts": {
+       "u0": "How can I take better pictures of my houseplants?",
+       "u4": "Hey honey, are you still at the grocery store?",
+       "u6": "Yeah.",
+       "u8": "Could you grab some rice? Hold on a second honey.",
+       "u9": "For those houseplant pictures, should I use the flash?",
+       "u11": "I'm back honey, did you find the rice?",
+       "u13": "Really?"
+      },
+      "speaker_score": {
+       "u0": 0.7144,
+       "u4": 0.665,
+       "u6": 0.0993,
+       "u8": 0.7108,
+       "u9": 0.633,
+       "u11": 0.6386,
+       "u13": 0.4439
+      },
+      "speaker_tag": {
+       "u0": "user",
+       "u4": "user",
+       "u6": "other",
+       "u8": "user",
+       "u9": "user",
+       "u11": "user",
+       "u13": "user"
+      },
+      "detected_sounds": [
+       {
+        "class": "phone",
+        "start": 6.08,
+        "end": 8.64,
+        "peak": 1.0
+       }
+      ]
+     },
+     "situation_text": "The assistant is not talking; it has been silent for 8.3 s.\nEarlier, oldest first:\n[1.9 s] the user: \u00abHow can I take better pictures of my houseplants?\u00bb\n[5.3 s] the assistant: \u00abPlace them near a window with soft, indirect light, and choose a simple background. Tap your camera screen to focus on an interesting leaf before taking the picture. (cut off)\u00bb\n[6.1 s] detected sound: phone ringing, 6.1 s to 8.6 s (confidence 1.00)\n[9.3 s] the user: \u00abHey honey, are you still at the grocery store?\u00bb\n[15.7 s] a voice that is not the user: \u00abYeah.\u00bb\n[19.4 s] the user: \u00abCould you grab some rice? Hold on a second honey.\u00bb\n[23.6 s] the user: \u00abFor those houseplant pictures, should I use the flash?\u00bb\n[26.9 s] the assistant: \u00abUsually, no. Window light will look softer and help avoid shiny reflections on the leaves.\u00bb\n[33.2 s] the user: \u00abI'm back honey, did you find the rice?\u00bb\nJust now the user said: \u00abReally?\u00bb",
+     "questions": [
+      "R: should the assistant RESPOND to the line just said, or NOT?"
+     ]
+    },
+    {
+     "id": "episode_phone_call|1|6",
+     "version": "1",
+     "k": 6,
+     "t": 44.9172,
+     "window": "episode_phone_call/v1_p6.flac",
+     "window_start": 36.9172,
+     "assistant_speaking": false,
+     "asks": [
+      "respond"
+     ],
+     "gold": {
+      "stop": null,
+      "respond": "not"
+     },
+     "line": "u15",
+     "line_text": "Okay.",
+     "category": "away",
+     "front_end": {
+      "transcripts": {
+       "u0": "How can I take better pictures of my houseplants?",
+       "u4": "Hey honey, are you still at the grocery store?",
+       "u6": "Yeah.",
+       "u8": "Could you grab some rice? Hold on a second honey.",
+       "u9": "For those houseplant pictures, should I use the flash?",
+       "u11": "I'm back honey, did you find the rice?",
+       "u13": "Really?",
+       "u15": "Okay."
+      },
+      "speaker_score": {
+       "u0": 0.7144,
+       "u4": 0.665,
+       "u6": 0.0993,
+       "u8": 0.7108,
+       "u9": 0.633,
+       "u11": 0.6386,
+       "u13": 0.4439,
+       "u15": 0.2066
+      },
+      "speaker_tag": {
+       "u0": "user",
+       "u4": "user",
+       "u6": "other",
+       "u8": "user",
+       "u9": "user",
+       "u11": "user",
+       "u13": "user",
+       "u15": "other"
+      },
+      "detected_sounds": [
+       {
+        "class": "phone",
+        "start": 6.08,
+        "end": 8.64,
+        "peak": 1.0
+       }
+      ]
+     },
+     "situation_text": "The assistant is not talking; it has been silent for 13.1 s.\nEarlier, oldest first:\n[1.9 s] the user: \u00abHow can I take better pictures of my houseplants?\u00bb\n[5.3 s] the assistant: \u00abPlace them near a window with soft, indirect light, and choose a simple background. Tap your camera screen to focus on an interesting leaf before taking the picture. (cut off)\u00bb\n[6.1 s] detected sound: phone ringing, 6.1 s to 8.6 s (confidence 1.00)\n[9.3 s] the user: \u00abHey honey, are you still at the grocery store?\u00bb\n[15.7 s] a voice that is not the user: \u00abYeah.\u00bb\n[19.4 s] the user: \u00abCould you grab some rice? Hold on a second honey.\u00bb\n[23.6 s] the user: \u00abFor those houseplant pictures, should I use the flash?\u00bb\n[26.9 s] the assistant: \u00abUsually, no. Window light will look softer and help avoid shiny reflections on the leaves.\u00bb\n[33.2 s] the user: \u00abI'm back honey, did you find the rice?\u00bb\n[39.0 s] the user: \u00abReally?\u00bb\nJust now a voice that is not the user said: \u00abOkay.\u00bb",
+     "questions": [
+      "R: should the assistant RESPOND to the line just said, or NOT?"
+     ]
+    },
+    {
+     "id": "episode_phone_call|1|7",
+     "version": "1",
+     "k": 7,
+     "t": 49.7464,
+     "window": "episode_phone_call/v1_p7.flac",
+     "window_start": 41.7464,
+     "assistant_speaking": false,
+     "asks": [
+      "respond"
+     ],
+     "gold": {
+      "stop": null,
+      "respond": "respond"
+     },
+     "line": "u17",
+     "line_text": "How do I keep the leaves sharp in those pictures if my hands shake?",
+     "category": "return",
+     "front_end": {
+      "transcripts": {
+       "u0": "How can I take better pictures of my houseplants?",
+       "u4": "Hey honey, are you still at the grocery store?",
+       "u6": "Yeah.",
+       "u8": "Could you grab some rice? Hold on a second honey.",
+       "u9": "For those houseplant pictures, should I use the flash?",
+       "u11": "I'm back honey, did you find the rice?",
+       "u13": "Really?",
+       "u15": "Okay.",
+       "u17": "How do I keep the leaves sharp in those pictures if my hands shake?"
+      },
+      "speaker_score": {
+       "u0": 0.7144,
+       "u4": 0.665,
+       "u6": 0.0993,
+       "u8": 0.7108,
+       "u9": 0.633,
+       "u11": 0.6386,
+       "u13": 0.4439,
+       "u15": 0.2066,
+       "u17": 0.6536
+      },
+      "speaker_tag": {
+       "u0": "user",
+       "u4": "user",
+       "u6": "other",
+       "u8": "user",
+       "u9": "user",
+       "u11": "user",
+       "u13": "user",
+       "u15": "other",
+       "u17": "user"
+      },
+      "detected_sounds": [
+       {
+        "class": "phone",
+        "start": 6.08,
+        "end": 8.64,
+        "peak": 1.0
+       }
+      ]
+     },
+     "situation_text": "The assistant is not talking; it has been silent for 18.0 s.\nEarlier, oldest first:\n[1.9 s] the user: \u00abHow can I take better pictures of my houseplants?\u00bb\n[5.3 s] the assistant: \u00abPlace them near a window with soft, indirect light, and choose a simple background. Tap your camera screen to focus on an interesting leaf before taking the picture. (cut off)\u00bb\n[6.1 s] detected sound: phone ringing, 6.1 s to 8.6 s (confidence 1.00)\n[9.3 s] the user: \u00abHey honey, are you still at the grocery store?\u00bb\n[15.7 s] a voice that is not the user: \u00abYeah.\u00bb\n[19.4 s] the user: \u00abCould you grab some rice? Hold on a second honey.\u00bb\n[23.6 s] the user: \u00abFor those houseplant pictures, should I use the flash?\u00bb\n[26.9 s] the assistant: \u00abUsually, no. Window light will look softer and help avoid shiny reflections on the leaves.\u00bb\n[33.2 s] the user: \u00abI'm back honey, did you find the rice?\u00bb\n[39.0 s] the user: \u00abReally?\u00bb\n[43.8 s] a voice that is not the user: \u00abOkay.\u00bb\nJust now the user said: \u00abHow do I keep the leaves sharp in those pictures if my hands shake?\u00bb",
+     "questions": [
+      "R: should the assistant RESPOND to the line just said, or NOT?"
+     ]
+    }
+   ]
+  }
+ ]
+}

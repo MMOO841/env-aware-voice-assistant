@@ -1,0 +1,218 @@
+{
+ "scene_id": "respond_reaction",
+ "split": "train",
+ "part": "respond_reaction",
+ "part_title": "Respond, reaction",
+ "title": "The user answers the phone, or rejects the call and asks the assistant",
+ "description": "The assistant is silent after answering a question about drilling plywood. A mobile phone rings. In version 1 the user answers the call (do not respond). In version 2 the user rejects the call and asks the assistant a follow-up question (respond). The sound is identical; the words decide.",
+ "source_unit": "train_d01_rreact_00163",
+ "sample_rate": 16000,
+ "window_seconds": 8.0,
+ "room": "small-Room041",
+ "noise": {
+  "dataset": "DEMAND",
+  "environment": "DWASHING",
+  "channel": 1,
+  "offset_s": 81.754,
+  "snr_db": 25.62
+ },
+ "voices": {
+  "user": "am_liam"
+ },
+ "assistant_voice_in_audio": false,
+ "licence": "CC BY-SA 3.0 (the mix contains DEMAND background noise); see CREDITS.md",
+ "versions": [
+  {
+   "version": "1",
+   "label": "user answers the call",
+   "audio": null,
+   "duration_s": 25.079,
+   "mix_gain_db": 0.0,
+   "speech": [
+    {
+     "id": "req",
+     "who": "user",
+     "text": "How do I drill a clean exit hole through thin plywood without splintering the underside?",
+     "start": 0.5,
+     "end": 4.68,
+     "position": "across",
+     "level_db": -4.0,
+     "voice": "kokoro:am_liam"
+    },
+    {
+     "id": "line",
+     "who": "user",
+     "text": "Sorry, I was asleep when you called earlier.",
+     "start": 20.3191,
+     "end": 22.5791,
+     "position": "across",
+     "level_db": -4.0,
+     "voice": "kokoro:am_liam"
+    }
+   ],
+   "assistant": [
+    {
+     "text": "Clamp a scrap board tightly beneath the plywood. Mark your hole, use a sharp bit, and drill steadily with lighter pressure as the bit reaches the backing board.",
+     "start": 5.28,
+     "end": 13.3041,
+     "full_end": 13.3041,
+     "cut_off": false
+    }
+   ],
+   "sounds": [
+    {
+     "id": "ev",
+     "class": "phone",
+     "clip_id": "117565",
+     "start": 16.7141,
+     "end": 19.6321,
+     "position": "near",
+     "level_db": -6.3
+    }
+   ],
+   "points": [
+    {
+     "id": "respond_reaction|1|0",
+     "version": "1",
+     "k": 0,
+     "t": 22.7791,
+     "window": "respond_reaction/v1_p0.flac",
+     "window_start": 14.7791,
+     "assistant_speaking": false,
+     "asks": [
+      "respond"
+     ],
+     "gold": {
+      "stop": null,
+      "respond": "not"
+     },
+     "line": "line",
+     "line_text": "Sorry, I was asleep when you called earlier.",
+     "category": "r_react",
+     "front_end": {
+      "transcripts": {
+       "req": "How do I drill a clean exit hole through thin plywood without splintering the underside?",
+       "line": "Sorry I was asleep when you called earlier."
+      },
+      "speaker_score": {
+       "req": 0.8693,
+       "line": 0.7835
+      },
+      "speaker_tag": {
+       "req": "user",
+       "line": "user"
+      },
+      "detected_sounds": [
+       {
+        "class": "phone",
+        "start": 16.64,
+        "end": 19.52,
+        "peak": 1.0
+       }
+      ]
+     },
+     "situation_text": "The assistant is not talking; it has been silent for 9.5 s.\nEarlier, oldest first:\n[0.5 s] the user: \u00abHow do I drill a clean exit hole through thin plywood without splintering the underside?\u00bb\n[5.3 s] the assistant: \u00abClamp a scrap board tightly beneath the plywood. Mark your hole, use a sharp bit, and drill steadily with lighter pressure as the bit reaches the backing board.\u00bb\n[16.6 s] detected sound: phone ringing, 16.6 s to 19.5 s (confidence 1.00)\nJust now the user said: \u00abSorry I was asleep when you called earlier.\u00bb",
+     "questions": [
+      "R: should the assistant RESPOND to the line just said, or NOT?"
+     ]
+    }
+   ]
+  },
+  {
+   "version": "2",
+   "label": "user rejects the call and asks the assistant",
+   "audio": null,
+   "duration_s": 25.079,
+   "mix_gain_db": 0.0,
+   "speech": [
+    {
+     "id": "req",
+     "who": "user",
+     "text": "How do I drill a clean exit hole through thin plywood without splintering the underside?",
+     "start": 0.5,
+     "end": 4.68,
+     "position": "across",
+     "level_db": -4.0,
+     "voice": "kokoro:am_liam"
+    },
+    {
+     "id": "line",
+     "who": "user",
+     "text": "Can you explain how thick the scrap backing board needs to be?",
+     "start": 20.3191,
+     "end": 23.3791,
+     "position": "across",
+     "level_db": -4.0,
+     "voice": "kokoro:am_liam"
+    }
+   ],
+   "assistant": [
+    {
+     "text": "Clamp a scrap board tightly beneath the plywood. Mark your hole, use a sharp bit, and drill steadily with lighter pressure as the bit reaches the backing board.",
+     "start": 5.28,
+     "end": 13.3041,
+     "full_end": 13.3041,
+     "cut_off": false
+    }
+   ],
+   "sounds": [
+    {
+     "id": "ev",
+     "class": "phone",
+     "clip_id": "117565",
+     "start": 16.7141,
+     "end": 19.6321,
+     "position": "near",
+     "level_db": -6.3
+    }
+   ],
+   "points": [
+    {
+     "id": "respond_reaction|2|0",
+     "version": "2",
+     "k": 0,
+     "t": 23.5791,
+     "window": "respond_reaction/v2_p0.flac",
+     "window_start": 15.5791,
+     "assistant_speaking": false,
+     "asks": [
+      "respond"
+     ],
+     "gold": {
+      "stop": null,
+      "respond": "respond"
+     },
+     "line": "line",
+     "line_text": "Can you explain how thick the scrap backing board needs to be?",
+     "category": "r_react",
+     "front_end": {
+      "transcripts": {
+       "req": "How do I drill a clean exit hole through thin plywood without splintering the underside?",
+       "line": "Can you explain how thick the scrap backing board needs to be?"
+      },
+      "speaker_score": {
+       "req": 0.8693,
+       "line": 0.7813
+      },
+      "speaker_tag": {
+       "req": "user",
+       "line": "user"
+      },
+      "detected_sounds": [
+       {
+        "class": "phone",
+        "start": 16.64,
+        "end": 19.52,
+        "peak": 1.0
+       }
+      ]
+     },
+     "situation_text": "The assistant is not talking; it has been silent for 10.3 s.\nEarlier, oldest first:\n[0.5 s] the user: \u00abHow do I drill a clean exit hole through thin plywood without splintering the underside?\u00bb\n[5.3 s] the assistant: \u00abClamp a scrap board tightly beneath the plywood. Mark your hole, use a sharp bit, and drill steadily with lighter pressure as the bit reaches the backing board.\u00bb\n[16.6 s] detected sound: phone ringing, 16.6 s to 19.5 s (confidence 1.00)\nJust now the user said: \u00abCan you explain how thick the scrap backing board needs to be?\u00bb",
+     "questions": [
+      "R: should the assistant RESPOND to the line just said, or NOT?"
+     ]
+    }
+   ]
+  }
+ ]
+}

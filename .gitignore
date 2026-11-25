@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+.venv/
+.venv-gpu/
+data/p1/
+data/p1v4/
+data/raw/
+*.env.json
+.*_env.json
+data/models_dl/
+models/release/*.pt
+.venv-nb/

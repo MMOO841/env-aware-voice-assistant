@@ -1,0 +1,449 @@
+{
+ "scene_id": "stop_movement",
+ "split": "train",
+ "part": "stop_movement",
+ "part_title": "Stop, movement",
+ "title": "Doorbell, footsteps and the front door, vs. a drawer, vs. TV speech",
+ "description": "The assistant is talking and nobody speaks to it. In version 1 the doorbell rings, the user walks to the front door, opens it and a visitor starts speaking: the user has left, so the assistant should stop. In version 2 the doorbell rings but nobody goes; in version 3 the same footsteps end at a drawer; in version 4 a TV is playing speech. In versions 2 to 4 the assistant should continue.",
+ "source_unit": "train_d08_smove_00250",
+ "sample_rate": 16000,
+ "window_seconds": 8.0,
+ "room": "small-Room141",
+ "noise": {
+  "dataset": "DEMAND",
+  "environment": "DWASHING",
+  "channel": 1,
+  "offset_s": 137.441,
+  "snr_db": 21.44
+ },
+ "voices": {
+  "user": "af_sarah",
+  "visitor": "af_bella"
+ },
+ "assistant_voice_in_audio": false,
+ "licence": "CC BY-SA 3.0 (the mix contains DEMAND background noise); see CREDITS.md",
+ "versions": [
+  {
+   "version": "1",
+   "label": "doorbell, footsteps, front door opens, visitor speaks",
+   "audio": null,
+   "duration_s": 18.59,
+   "mix_gain_db": 0.0,
+   "speech": [
+    {
+     "id": "req",
+     "who": "user",
+     "text": "What does moisture wicking actually mean on workout clothing, and does fabric softener affect it?",
+     "start": 0.5,
+     "end": 5.62,
+     "position": "near",
+     "level_db": 0.0,
+     "voice": "kokoro:af_sarah"
+    },
+    {
+     "id": "visitor",
+     "who": "visitor",
+     "text": "Hi, is this flat four?",
+     "start": 14.044,
+     "end": 15.264,
+     "position": "door",
+     "level_db": -8.0,
+     "voice": "kokoro:af_bella"
+    }
+   ],
+   "assistant": [
+    {
+     "text": "Moisture wicking means fabric moves sweat away from your skin so it can spread and evaporate. Fabric softener can leave coatings that reduce that performance, so follow the care label and usually skip it.",
+     "start": 6.22,
+     "end": 14.511,
+     "full_end": 17.09,
+     "cut_off": true
+    }
+   ],
+   "sounds": [
+    {
+     "id": "ev",
+     "class": "doorbell",
+     "clip_id": "415164",
+     "start": 7.231,
+     "end": 8.429,
+     "position": "door",
+     "level_db": -3.67
+    },
+    {
+     "id": "step0",
+     "class": "footsteps",
+     "clip_id": "378398",
+     "start": 10.515,
+     "end": 11.324,
+     "position": "walk0",
+     "level_db": -5.97
+    },
+    {
+     "id": "step1",
+     "class": "footsteps",
+     "clip_id": "378398",
+     "start": 11.324,
+     "end": 12.076,
+     "position": "walk1",
+     "level_db": -5.97
+    },
+    {
+     "id": "step2",
+     "class": "footsteps",
+     "clip_id": "378398",
+     "start": 12.076,
+     "end": 13.055,
+     "position": "walk2",
+     "level_db": -5.97
+    },
+    {
+     "id": "door",
+     "class": "door",
+     "clip_id": "119077",
+     "start": 13.511,
+     "end": 14.541,
+     "position": "door",
+     "level_db": -5.19
+    }
+   ],
+   "points": [
+    {
+     "id": "stop_movement|1|0",
+     "version": "1",
+     "k": 0,
+     "t": 14.511,
+     "window": "stop_movement/v1_p0.flac",
+     "window_start": 6.511,
+     "assistant_speaking": true,
+     "asks": [
+      "stop"
+     ],
+     "gold": {
+      "stop": "stop",
+      "respond": null
+     },
+     "line": null,
+     "line_text": null,
+     "category": "s_move",
+     "front_end": {
+      "transcripts": {
+       "req": "What does moisture wicking actually mean on workout clothing? And does fabric softener affect it?",
+       "visitor@0": "Hi, is that you?"
+      },
+      "speaker_score": {
+       "req": 0.8119,
+       "visitor@0": 0.0964
+      },
+      "speaker_tag": {
+       "req": "user",
+       "visitor@0": "other"
+      },
+      "detected_sounds": [
+       {
+        "class": "doorbell",
+        "start": 7.04,
+        "end": 8.64,
+        "peak": 1.0
+       },
+       {
+        "class": "footsteps",
+        "start": 10.56,
+        "end": 13.44,
+        "peak": 1.0
+       },
+       {
+        "class": "door",
+        "start": 13.44,
+        "end": 14.52,
+        "peak": 1.0
+       }
+      ]
+     },
+     "situation_text": "The assistant is talking right now (for 8.3 s). It is saying: \u00abMoisture wicking means fabric moves sweat away from your skin so it can spread and evaporate. Fabric softener can leave coatings that reduce that performance, so follow the care label and usually skip it.\u00bb\nEarlier, oldest first:\n[0.5 s] the user: \u00abWhat does moisture wicking actually mean on workout clothing? And does fabric softener affect it?\u00bb\n[7.0 s] detected sound: doorbell, 7.0 s to 8.6 s (confidence 1.00)\n[10.6 s] detected sound: footsteps, 10.6 s to 13.4 s (confidence 1.00)\n[13.4 s] detected sound: a door opening or closing, 13.4 s to 14.5 s (confidence 1.00)\n[14.0 s] a voice that is not the user: \u00abHi, is that you?\u00bb (still speaking)\nNobody has just finished speaking.",
+     "questions": [
+      "S: should the assistant STOP or CONTINUE talking?"
+     ]
+    }
+   ]
+  },
+  {
+   "version": "2",
+   "label": "doorbell only, nobody goes",
+   "audio": null,
+   "duration_s": 18.59,
+   "mix_gain_db": 0.0,
+   "speech": [
+    {
+     "id": "req",
+     "who": "user",
+     "text": "What does moisture wicking actually mean on workout clothing, and does fabric softener affect it?",
+     "start": 0.5,
+     "end": 5.62,
+     "position": "near",
+     "level_db": 0.0,
+     "voice": "kokoro:af_sarah"
+    }
+   ],
+   "assistant": [
+    {
+     "text": "Moisture wicking means fabric moves sweat away from your skin so it can spread and evaporate. Fabric softener can leave coatings that reduce that performance, so follow the care label and usually skip it.",
+     "start": 6.22,
+     "end": 17.09,
+     "full_end": 17.09,
+     "cut_off": false
+    }
+   ],
+   "sounds": [
+    {
+     "id": "ev",
+     "class": "doorbell",
+     "clip_id": "415164",
+     "start": 7.231,
+     "end": 8.429,
+     "position": "door",
+     "level_db": -3.67
+    }
+   ],
+   "points": [
+    {
+     "id": "stop_movement|2|0",
+     "version": "2",
+     "k": 0,
+     "t": 14.511,
+     "window": "stop_movement/v2_p0.flac",
+     "window_start": 6.511,
+     "assistant_speaking": true,
+     "asks": [
+      "stop"
+     ],
+     "gold": {
+      "stop": "continue",
+      "respond": null
+     },
+     "line": null,
+     "line_text": null,
+     "category": "s_move",
+     "front_end": {
+      "transcripts": {
+       "req": "What does moisture wicking actually mean on workout clothing? And does fabric softener affect it?"
+      },
+      "speaker_score": {
+       "req": 0.8119
+      },
+      "speaker_tag": {
+       "req": "user"
+      },
+      "detected_sounds": [
+       {
+        "class": "doorbell",
+        "start": 7.04,
+        "end": 8.64,
+        "peak": 1.0
+       }
+      ]
+     },
+     "situation_text": "The assistant is talking right now (for 8.3 s). It is saying: \u00abMoisture wicking means fabric moves sweat away from your skin so it can spread and evaporate. Fabric softener can leave coatings that reduce that performance, so follow the care label and usually skip it.\u00bb\nEarlier, oldest first:\n[0.5 s] the user: \u00abWhat does moisture wicking actually mean on workout clothing? And does fabric softener affect it?\u00bb\n[7.0 s] detected sound: doorbell, 7.0 s to 8.6 s (confidence 1.00)\nNobody has just finished speaking.",
+     "questions": [
+      "S: should the assistant STOP or CONTINUE talking?"
+     ]
+    }
+   ]
+  },
+  {
+   "version": "3",
+   "label": "the same footsteps, then a drawer",
+   "audio": null,
+   "duration_s": 18.59,
+   "mix_gain_db": 0.0,
+   "speech": [
+    {
+     "id": "req",
+     "who": "user",
+     "text": "What does moisture wicking actually mean on workout clothing, and does fabric softener affect it?",
+     "start": 0.5,
+     "end": 5.62,
+     "position": "near",
+     "level_db": 0.0,
+     "voice": "kokoro:af_sarah"
+    }
+   ],
+   "assistant": [
+    {
+     "text": "Moisture wicking means fabric moves sweat away from your skin so it can spread and evaporate. Fabric softener can leave coatings that reduce that performance, so follow the care label and usually skip it.",
+     "start": 6.22,
+     "end": 17.09,
+     "full_end": 17.09,
+     "cut_off": false
+    }
+   ],
+   "sounds": [
+    {
+     "id": "step0",
+     "class": "footsteps",
+     "clip_id": "378398",
+     "start": 10.515,
+     "end": 11.324,
+     "position": "walk0",
+     "level_db": -5.97
+    },
+    {
+     "id": "step1",
+     "class": "footsteps",
+     "clip_id": "378398",
+     "start": 11.324,
+     "end": 12.076,
+     "position": "walk1",
+     "level_db": -5.97
+    },
+    {
+     "id": "step2",
+     "class": "footsteps",
+     "clip_id": "378398",
+     "start": 12.076,
+     "end": 13.055,
+     "position": "walk2",
+     "level_db": -5.97
+    },
+    {
+     "id": "door",
+     "class": "cabinet",
+     "clip_id": "427301",
+     "start": 13.511,
+     "end": 14.541,
+     "position": "door",
+     "level_db": -5.19
+    }
+   ],
+   "points": [
+    {
+     "id": "stop_movement|3|0",
+     "version": "3",
+     "k": 0,
+     "t": 14.511,
+     "window": "stop_movement/v3_p0.flac",
+     "window_start": 6.511,
+     "assistant_speaking": true,
+     "asks": [
+      "stop"
+     ],
+     "gold": {
+      "stop": "continue",
+      "respond": null
+     },
+     "line": null,
+     "line_text": null,
+     "category": "s_move",
+     "front_end": {
+      "transcripts": {
+       "req": "What does moisture wicking actually mean on workout clothing? And does fabric softener affect it?"
+      },
+      "speaker_score": {
+       "req": 0.8119
+      },
+      "speaker_tag": {
+       "req": "user"
+      },
+      "detected_sounds": [
+       {
+        "class": "footsteps",
+        "start": 10.56,
+        "end": 13.76,
+        "peak": 1.0
+       },
+       {
+        "class": "cabinet",
+        "start": 13.44,
+        "end": 14.52,
+        "peak": 0.992
+       }
+      ]
+     },
+     "situation_text": "The assistant is talking right now (for 8.3 s). It is saying: \u00abMoisture wicking means fabric moves sweat away from your skin so it can spread and evaporate. Fabric softener can leave coatings that reduce that performance, so follow the care label and usually skip it.\u00bb\nEarlier, oldest first:\n[0.5 s] the user: \u00abWhat does moisture wicking actually mean on workout clothing? And does fabric softener affect it?\u00bb\n[10.6 s] detected sound: footsteps, 10.6 s to 13.8 s (confidence 1.00)\n[13.4 s] detected sound: a cupboard or drawer, 13.4 s to 14.5 s (confidence 0.99)\nNobody has just finished speaking.",
+     "questions": [
+      "S: should the assistant STOP or CONTINUE talking?"
+     ]
+    }
+   ]
+  },
+  {
+   "version": "4",
+   "label": "TV speech in the room",
+   "audio": null,
+   "duration_s": 18.59,
+   "mix_gain_db": 0.0,
+   "speech": [
+    {
+     "id": "req",
+     "who": "user",
+     "text": "What does moisture wicking actually mean on workout clothing, and does fabric softener affect it?",
+     "start": 0.5,
+     "end": 5.62,
+     "position": "near",
+     "level_db": 0.0,
+     "voice": "kokoro:af_sarah"
+    }
+   ],
+   "assistant": [
+    {
+     "text": "Moisture wicking means fabric moves sweat away from your skin so it can spread and evaporate. Fabric softener can leave coatings that reduce that performance, so follow the care label and usually skip it.",
+     "start": 6.22,
+     "end": 17.09,
+     "full_end": 17.09,
+     "cut_off": false
+    }
+   ],
+   "sounds": [
+    {
+     "id": "tv",
+     "class": "tv_recording",
+     "clip_id": "voxpopuli:20131022-0900-PLENARY-5-en_20131022-10:34:20_2",
+     "start": 6.52,
+     "end": 15.011,
+     "position": "across",
+     "level_db": -11.15
+    }
+   ],
+   "points": [
+    {
+     "id": "stop_movement|4|0",
+     "version": "4",
+     "k": 0,
+     "t": 14.511,
+     "window": "stop_movement/v4_p0.flac",
+     "window_start": 6.511,
+     "assistant_speaking": true,
+     "asks": [
+      "stop"
+     ],
+     "gold": {
+      "stop": "continue",
+      "respond": null
+     },
+     "line": null,
+     "line_text": null,
+     "category": "s_move",
+     "front_end": {
+      "transcripts": {
+       "req": "What does moisture wicking actually mean on workout clothing? And does fabric softener affect it?",
+       "tv@0": "The harsh reality of course is that we are living day to day in budget returns. The commitments agreed and the MFF back in the"
+      },
+      "speaker_score": {
+       "req": 0.8119,
+       "tv@0": -0.0386
+      },
+      "speaker_tag": {
+       "req": "user",
+       "tv@0": "other"
+      },
+      "detected_sounds": []
+     },
+     "situation_text": "The assistant is talking right now (for 8.3 s). It is saying: \u00abMoisture wicking means fabric moves sweat away from your skin so it can spread and evaporate. Fabric softener can leave coatings that reduce that performance, so follow the care label and usually skip it.\u00bb\nEarlier, oldest first:\n[0.5 s] the user: \u00abWhat does moisture wicking actually mean on workout clothing? And does fabric softener affect it?\u00bb\n[6.5 s] a voice that is not the user: \u00abThe harsh reality of course is that we are living day to day in budget returns. The commitments agreed and the MFF back in the\u00bb (still speaking)\nNobody has just finished speaking.",
+     "questions": [
+      "S: should the assistant STOP or CONTINUE talking?"
+     ]
+    }
+   ]
+  }
+ ]
+}

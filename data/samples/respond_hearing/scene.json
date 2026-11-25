@@ -1,0 +1,297 @@
+{
+ "scene_id": "respond_hearing",
+ "split": "train",
+ "part": "respond_hearing",
+ "part_title": "Respond, hearing",
+ "title": "A ring, nothing, or a kitchen sound, then \"Hello?\"",
+ "description": "The assistant is silent after answering a question. Then the user says \"Hello?\". In version 1 a telephone rang just before, so \"Hello?\" is meant for the caller (do not respond). In version 2 nothing happened and in version 3 a pot rattled in the kitchen, so \"Hello?\" is meant for the assistant (respond). The words are identical in all three versions; only the sound differs.",
+ "source_unit": "train_d07_rhear_00161",
+ "sample_rate": 16000,
+ "window_seconds": 8.0,
+ "room": "medium-Room003",
+ "noise": {
+  "dataset": "DEMAND",
+  "environment": "OHALLWAY",
+  "channel": 1,
+  "offset_s": 208.43,
+  "snr_db": 26.25
+ },
+ "voices": {
+  "user": "am_onyx"
+ },
+ "assistant_voice_in_audio": false,
+ "licence": "CC BY-SA 3.0 (the mix contains DEMAND background noise); see CREDITS.md",
+ "versions": [
+  {
+   "version": "1",
+   "label": "telephone ring before the line",
+   "audio": null,
+   "duration_s": 29.067,
+   "mix_gain_db": 0.0,
+   "speech": [
+    {
+     "id": "req",
+     "who": "user",
+     "text": "How can I air-dry heavy towels in my tiny apartment without making it damp?",
+     "start": 0.5,
+     "end": 4.8,
+     "position": "near",
+     "level_db": 0.0,
+     "voice": "kokoro:am_onyx"
+    },
+    {
+     "id": "line",
+     "who": "user",
+     "text": "Hello?",
+     "start": 26.727,
+     "end": 27.367,
+     "position": "near",
+     "level_db": 0.0,
+     "voice": "kokoro:am_onyx"
+    }
+   ],
+   "assistant": [
+    {
+     "text": "Run an extra spin cycle first, then hang towels separately with plenty of space between them. Use an exhaust fan or dehumidifier, and keep the rack away from walls.",
+     "start": 5.4,
+     "end": 15.4,
+     "full_end": 15.4,
+     "cut_off": false
+    }
+   ],
+   "sounds": [
+    {
+     "id": "ev",
+     "class": "phone",
+     "clip_id": "79440",
+     "start": 23.69,
+     "end": 26.191,
+     "position": "across",
+     "level_db": 2.0
+    }
+   ],
+   "points": [
+    {
+     "id": "respond_hearing|1|0",
+     "version": "1",
+     "k": 0,
+     "t": 27.567,
+     "window": "respond_hearing/v1_p0.flac",
+     "window_start": 19.567,
+     "assistant_speaking": false,
+     "asks": [
+      "respond"
+     ],
+     "gold": {
+      "stop": null,
+      "respond": "not"
+     },
+     "line": "line",
+     "line_text": "Hello?",
+     "category": "r_hear",
+     "front_end": {
+      "transcripts": {
+       "req": "How can I air dry heavy towels in my tiny apartment without making it damp?",
+       "line": "Hello."
+      },
+      "speaker_score": {
+       "req": 0.8647,
+       "line": 0.4118
+      },
+      "speaker_tag": {
+       "req": "user",
+       "line": "user"
+      },
+      "detected_sounds": [
+       {
+        "class": "phone",
+        "start": 23.68,
+        "end": 26.56,
+        "peak": 1.0
+       }
+      ]
+     },
+     "situation_text": "The assistant is not talking; it has been silent for 12.2 s.\nEarlier, oldest first:\n[0.5 s] the user: \u00abHow can I air dry heavy towels in my tiny apartment without making it damp?\u00bb\n[5.4 s] the assistant: \u00abRun an extra spin cycle first, then hang towels separately with plenty of space between them. Use an exhaust fan or dehumidifier, and keep the rack away from walls.\u00bb\n[23.7 s] detected sound: phone ringing, 23.7 s to 26.6 s (confidence 1.00)\nJust now the user said: \u00abHello.\u00bb",
+     "questions": [
+      "R: should the assistant RESPOND to the line just said, or NOT?"
+     ]
+    }
+   ]
+  },
+  {
+   "version": "2",
+   "label": "no sound before the line",
+   "audio": null,
+   "duration_s": 29.067,
+   "mix_gain_db": 0.0,
+   "speech": [
+    {
+     "id": "req",
+     "who": "user",
+     "text": "How can I air-dry heavy towels in my tiny apartment without making it damp?",
+     "start": 0.5,
+     "end": 4.8,
+     "position": "near",
+     "level_db": 0.0,
+     "voice": "kokoro:am_onyx"
+    },
+    {
+     "id": "line",
+     "who": "user",
+     "text": "Hello?",
+     "start": 26.727,
+     "end": 27.367,
+     "position": "near",
+     "level_db": 0.0,
+     "voice": "kokoro:am_onyx"
+    }
+   ],
+   "assistant": [
+    {
+     "text": "Run an extra spin cycle first, then hang towels separately with plenty of space between them. Use an exhaust fan or dehumidifier, and keep the rack away from walls.",
+     "start": 5.4,
+     "end": 15.4,
+     "full_end": 15.4,
+     "cut_off": false
+    }
+   ],
+   "sounds": [],
+   "points": [
+    {
+     "id": "respond_hearing|2|0",
+     "version": "2",
+     "k": 0,
+     "t": 27.567,
+     "window": "respond_hearing/v2_p0.flac",
+     "window_start": 19.567,
+     "assistant_speaking": false,
+     "asks": [
+      "respond"
+     ],
+     "gold": {
+      "stop": null,
+      "respond": "respond"
+     },
+     "line": "line",
+     "line_text": "Hello?",
+     "category": "r_hear",
+     "front_end": {
+      "transcripts": {
+       "req": "How can I air dry heavy towels in my tiny apartment without making it damp?",
+       "line": "Hello."
+      },
+      "speaker_score": {
+       "req": 0.8647,
+       "line": 0.3983
+      },
+      "speaker_tag": {
+       "req": "user",
+       "line": "user"
+      },
+      "detected_sounds": []
+     },
+     "situation_text": "The assistant is not talking; it has been silent for 12.2 s.\nEarlier, oldest first:\n[0.5 s] the user: \u00abHow can I air dry heavy towels in my tiny apartment without making it damp?\u00bb\n[5.4 s] the assistant: \u00abRun an extra spin cycle first, then hang towels separately with plenty of space between them. Use an exhaust fan or dehumidifier, and keep the rack away from walls.\u00bb\nJust now the user said: \u00abHello.\u00bb",
+     "questions": [
+      "R: should the assistant RESPOND to the line just said, or NOT?"
+     ]
+    }
+   ]
+  },
+  {
+   "version": "3",
+   "label": "unrelated kitchen sound (pots rattling) before the line",
+   "audio": null,
+   "duration_s": 29.067,
+   "mix_gain_db": 0.0,
+   "speech": [
+    {
+     "id": "req",
+     "who": "user",
+     "text": "How can I air-dry heavy towels in my tiny apartment without making it damp?",
+     "start": 0.5,
+     "end": 4.8,
+     "position": "near",
+     "level_db": 0.0,
+     "voice": "kokoro:am_onyx"
+    },
+    {
+     "id": "line",
+     "who": "user",
+     "text": "Hello?",
+     "start": 26.727,
+     "end": 27.367,
+     "position": "near",
+     "level_db": 0.0,
+     "voice": "kokoro:am_onyx"
+    }
+   ],
+   "assistant": [
+    {
+     "text": "Run an extra spin cycle first, then hang towels separately with plenty of space between them. Use an exhaust fan or dehumidifier, and keep the rack away from walls.",
+     "start": 5.4,
+     "end": 15.4,
+     "full_end": 15.4,
+     "cut_off": false
+    }
+   ],
+   "sounds": [
+    {
+     "id": "ev",
+     "class": "decoy",
+     "clip_id": "181261",
+     "start": 23.69,
+     "end": 26.191,
+     "position": "across",
+     "level_db": 2.0
+    }
+   ],
+   "points": [
+    {
+     "id": "respond_hearing|3|0",
+     "version": "3",
+     "k": 0,
+     "t": 27.567,
+     "window": "respond_hearing/v3_p0.flac",
+     "window_start": 19.567,
+     "assistant_speaking": false,
+     "asks": [
+      "respond"
+     ],
+     "gold": {
+      "stop": null,
+      "respond": "respond"
+     },
+     "line": "line",
+     "line_text": "Hello?",
+     "category": "r_hear",
+     "front_end": {
+      "transcripts": {
+       "req": "How can I air dry heavy towels in my tiny apartment without making it damp?",
+       "line": "Hello."
+      },
+      "speaker_score": {
+       "req": 0.8647,
+       "line": 0.3873
+      },
+      "speaker_tag": {
+       "req": "user",
+       "line": "user"
+      },
+      "detected_sounds": [
+       {
+        "class": "decoy",
+        "start": 23.68,
+        "end": 26.24,
+        "peak": 1.0
+       }
+      ]
+     },
+     "situation_text": "The assistant is not talking; it has been silent for 12.2 s.\nEarlier, oldest first:\n[0.5 s] the user: \u00abHow can I air dry heavy towels in my tiny apartment without making it damp?\u00bb\n[5.4 s] the assistant: \u00abRun an extra spin cycle first, then hang towels separately with plenty of space between them. Use an exhaust fan or dehumidifier, and keep the rack away from walls.\u00bb\n[23.7 s] detected sound: a household sound, 23.7 s to 26.2 s (confidence 1.00)\nJust now the user said: \u00abHello.\u00bb",
+     "questions": [
+      "R: should the assistant RESPOND to the line just said, or NOT?"
+     ]
+    }
+   ]
+  }
+ ]
+}

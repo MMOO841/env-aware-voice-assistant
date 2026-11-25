@@ -1,0 +1,95 @@
+{
+ "format_version": 1,
+ "split": "train",
+ "sample_rate": 16000,
+ "window_seconds": 8.0,
+ "paths_relative_to": "data/samples/",
+ "licence": "CC BY-SA 3.0; see CREDITS.md",
+ "scenes": [
+  {
+   "scene_id": "respond_hearing",
+   "part": "respond_hearing",
+   "part_title": "Respond, hearing",
+   "title": "A ring, nothing, or a kitchen sound, then \"Hello?\"",
+   "scene_json": "respond_hearing/scene.json",
+   "versions": [
+    "1",
+    "2",
+    "3"
+   ],
+   "full_audio": [],
+   "n_points": 3
+  },
+  {
+   "scene_id": "respond_reaction",
+   "part": "respond_reaction",
+   "part_title": "Respond, reaction",
+   "title": "The user answers the phone, or rejects the call and asks the assistant",
+   "scene_json": "respond_reaction/scene.json",
+   "versions": [
+    "1",
+    "2"
+   ],
+   "full_audio": [],
+   "n_points": 2
+  },
+  {
+   "scene_id": "stop_reaction",
+   "part": "stop_reaction",
+   "part_title": "Stop, reaction",
+   "title": "A ring while the assistant talks: answer, keep going, \"Uh-huh.\", or silence",
+   "scene_json": "stop_reaction/scene.json",
+   "versions": [
+    "1",
+    "2",
+    "3",
+    "4"
+   ],
+   "full_audio": [],
+   "n_points": 4
+  },
+  {
+   "scene_id": "stop_movement",
+   "part": "stop_movement",
+   "part_title": "Stop, movement",
+   "title": "Doorbell, footsteps and the front door, vs. a drawer, vs. TV speech",
+   "scene_json": "stop_movement/scene.json",
+   "versions": [
+    "1",
+    "2",
+    "3",
+    "4"
+   ],
+   "full_audio": [],
+   "n_points": 4
+  },
+  {
+   "scene_id": "episode_phone_call",
+   "part": "episode",
+   "part_title": "Episodes",
+   "title": "Phone call during an answer, with a question to the assistant in the middle of the call",
+   "scene_json": "episode_phone_call/scene.json",
+   "versions": [
+    "1"
+   ],
+   "full_audio": [
+    "episode_phone_call/full.flac"
+   ],
+   "n_points": 8
+  },
+  {
+   "scene_id": "episode_visitor",
+   "part": "episode",
+   "part_title": "Episodes",
+   "title": "A knock during an answer; the user silently goes to the door",
+   "scene_json": "episode_visitor/scene.json",
+   "versions": [
+    "1"
+   ],
+   "full_audio": [
+    "episode_visitor/full.flac"
+   ],
+   "n_points": 6
+  }
+ ]
+}

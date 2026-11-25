@@ -1,0 +1,59 @@
+{
+ "description": "Frozen settings of the trained system, as used for the final evaluation. src/demo.py reads the decision thresholds and the speaker threshold from this file; the other entries document the front end and must equal the constants in src/p1v4_feats.py and src/p1v4_l1.py (src/demo.py checks this).",
+ "decision_thresholds": {
+  "ours": {
+   "what": "step 2d read-out (readouts_2d.npz) on the fine-tuned VoxTurn",
+   "stop": 0.139,
+   "respond": 0.248
+  },
+  "original_readout": {
+   "what": "the fine-tuned VoxTurn's own option head (new_head in l1_new.pt)",
+   "stop": 0.286,
+   "respond": 0.049
+  },
+  "rule": "decide stop when P(stop) >= stop, respond when P(respond) >= respond (src/p1v4_score.py decide). Both pairs were chosen on the development set by src/p1v4_score.py operating_point and frozen before the test set was opened."
+ },
+ "speaker_id": {
+  "model": "speechbrain/spkrec-ecapa-voxceleb",
+  "revision": "0f99f2d0ebe89ac095bcc5903c4dd8f72b367286",
+  "threshold": 0.319,
+  "rule": "a speech segment is tagged 'user' when the cosine between its ECAPA-TDNN embedding and the user's enrolment embedding is at least the threshold, else 'other' (not the user)",
+  "threshold_choice": "maximum balanced accuracy (mean of the user and not-the-user recalls) over the 4,235 unique development-set speech segments (src/p1v4_context.py threshold); balanced accuracy 0.937 there",
+  "enrolment": "the user's voice reads a fixed two-sentence passage once (about 8 to 14 s depending on the voice; speaker_enrolment.json); its ECAPA-TDNN embedding is the reference"
+ },
+ "transcripts": {
+  "model": "openai/whisper-small",
+  "revision": "973afd24965f72e36ca33b3055d56a652f456b4d",
+  "precision": "float16",
+  "decoding": "greedy, language en, task transcribe, at most 160 new tokens",
+  "segments": "every speech segment that started before the decision point, cut at its scripted times: a finished segment from its start to 0.2 s after its end (at most to the decision point), a segment still going at the decision point up to that point; each cut is padded to 30 s"
+ },
+ "detector": {
+  "file": "release/sed.pt (GitHub Release asset, see release/README.md)",
+  "architecture": "PANNs Cnn14_DecisionLevelAtt, whole network fine-tuned, new attention head",
+  "classes": ["phone", "doorbell", "knock", "footsteps", "door", "cabinet", "decoy"],
+  "input": "audio from the start of the scene to the decision point, 16 kHz upsampled to 32 kHz",
+  "frames_per_second": 100,
+  "frame_threshold": 0.2,
+  "merge_gap_s": 0.3,
+  "output": "per class, runs of frames with probability >= 0.2, runs closer than 0.3 s merged: (class, start, end, peak probability)",
+  "choice": "epoch 3 of 3, chosen by window-level macro F1 over the seven classes on the development set (0.876)"
+ },
+ "decision_model": {
+  "base": "AustinXiao/voxturn",
+  "base_revision": "fe3d4a319c4e74279544188bd0e8292325852dbc",
+  "backbone": "Qwen/Qwen3-ASR-0.6B-hf",
+  "backbone_revision": "7f1569a48a89f3e3f4dc3a5c9d28bddd903bc76c",
+  "adapter": {"name": "p1v4", "r": 16, "alpha": 32, "dropout": 0.0, "target_modules": "all-linear layers of the language model"},
+  "window_s": 8.0,
+  "sample_rate": 16000,
+  "max_text_tokens": 1024,
+  "questions": "phrasing 0 of the stop and respond questions in src/p1v4_l1.py, both asked in one pass when both apply",
+  "marker": "'agent' when the assistant is talking at the decision point, else 'user'"
+ },
+ "files": {
+  "l1_new.pt": {"sha256": "a8a68fcb35e64c81f61eb667d4b16c8dca18643f3a6ddc57af895e50733ed64b", "bytes": 40503963},
+  "readouts_2d.npz": {"sha256": "87ad40a33609529739fb91fbb9f3fc689840c16a0d18f4a789bf8cdf33559ebb", "bytes": 444934},
+  "release/sed.pt": {"sha256": "58be2ddacc795e5801bd252ee7c46ba87733c89a8709d759701a5a01ec49d2d3", "bytes": 323234382}
+ }
+}

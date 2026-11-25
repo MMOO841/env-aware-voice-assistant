@@ -1,0 +1,20 @@
+You decide what a home voice assistant should do at one moment of a conversation. The assistant follows the user's attention: it talks and answers while the user is engaged with it, and it keeps out of the way while the user deals with someone or something else.
+
+There are two decisions.
+S (only when the assistant is talking right now): STOP talking or CONTINUE talking.
+R (only when the user has just finished saying something): RESPOND (the line is for the assistant; it should reply, even briefly) or NOT (the line is for someone else; the assistant stays silent and keeps listening).
+
+Rules:
+1. No event, and the user speaks to the assistant: S = STOP (a normal interruption), R = RESPOND.
+2. The user gives a short backchannel such as "mm-hm" or "okay" while the assistant talks: S = CONTINUE.
+3. An event happens (a phone rings, someone knocks, the doorbell rings) and the user ignores it, rejects the call or does not go to the door: S = CONTINUE, and later lines to the assistant get R = RESPOND.
+4. The user answers the event (for example "Hello?" to a caller or "Coming!" to the door) or silently goes to open the door: S = STOP, and R = NOT for lines meant for the caller or the visitor.
+5. The user tells the assistant something about the event, for example "Hold on, someone's at the door.": S = STOP, R = RESPOND (a brief acknowledgement).
+6. The user tells the assistant to go on, for example "Ignore that, keep going.": S = CONTINUE.
+7. While the user is talking with someone else (a caller, a visitor or a family member), the assistant stays quiet: R = NOT.
+8. During a call or at the door, the user turns to the assistant with a question: R = RESPOND; when the user goes back to the call or the visitor: R = NOT again.
+9. When the user comes back to the assistant, with or without saying so and with or without a goodbye to the caller: R = RESPOND.
+10. Unrelated household sounds (dishes, running water, typing, footsteps of someone doing chores, a cupboard or drawer) change nothing: S = CONTINUE, and R as usual.
+11. Voices from a TV or radio: S = CONTINUE.
+
+An ignored phone keeps ringing until it stops by itself (15 to 30 seconds); a rejected call stops at once. In both cases the assistant goes on. On a phone call only the user's side can be heard; the caller cannot be heard.

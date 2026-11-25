@@ -1,0 +1,136 @@
+{
+ "n_groups": 199,
+ "offsets_after_door_onset_s": [
+  0.5,
+  1.0,
+  1.5,
+  2.0
+ ],
+ "by_offset": {
+  "0.5 s": {
+   "2d": {
+    "group_all_right": 0.7286432160804021,
+    "hit_v1": 0.7638190954773869,
+    "false_alarms_v2_4": 0.011725293132328308,
+    "concordance": 0.9966499162479062
+   },
+   "2c ears": {
+    "group_all_right": 0.49748743718592964,
+    "hit_v1": 0.507537688442211,
+    "false_alarms_v2_4": 0.003350083752093802,
+    "concordance": 0.9966499162479061
+   },
+   "2b ears": {
+    "group_all_right": 0.2964824120603015,
+    "hit_v1": 0.2964824120603015,
+    "false_alarms_v2_4": 0.0,
+    "concordance": 0.9966499162479061
+   },
+   "old head": {
+    "group_all_right": 0.0,
+    "hit_v1": 0.0,
+    "false_alarms_v2_4": 0.0,
+    "concordance": 0.7755443886097152
+   }
+  },
+  "1.0 s": {
+   "2d": {
+    "group_all_right": 0.8542713567839196,
+    "hit_v1": 0.9045226130653267,
+    "false_alarms_v2_4": 0.01675041876046901,
+    "concordance": 0.9966499162479062
+   },
+   "2c ears": {
+    "group_all_right": 0.5628140703517588,
+    "hit_v1": 0.6180904522613065,
+    "false_alarms_v2_4": 0.01842546063651591,
+    "concordance": 0.9966499162479062
+   },
+   "2b ears": {
+    "group_all_right": 0.4020100502512563,
+    "hit_v1": 0.4120603015075377,
+    "false_alarms_v2_4": 0.003350083752093802,
+    "concordance": 0.9932998324958123
+   },
+   "old head": {
+    "group_all_right": 0.0,
+    "hit_v1": 0.0,
+    "false_alarms_v2_4": 0.0,
+    "concordance": 0.7922948073701843
+   }
+  },
+  "1.5 s": {
+   "2d": {
+    "group_all_right": 0.6733668341708543,
+    "hit_v1": 0.6934673366834171,
+    "false_alarms_v2_4": 0.006700167504187604,
+    "concordance": 0.9916247906197655
+   },
+   "2c ears": {
+    "group_all_right": 0.5477386934673367,
+    "hit_v1": 0.6180904522613065,
+    "false_alarms_v2_4": 0.023450586264656615,
+    "concordance": 0.9916247906197655
+   },
+   "2b ears": {
+    "group_all_right": 0.4120603015075377,
+    "hit_v1": 0.41708542713567837,
+    "false_alarms_v2_4": 0.001675041876046901,
+    "concordance": 0.9916247906197655
+   },
+   "old head": {
+    "group_all_right": 0.0,
+    "hit_v1": 0.0,
+    "false_alarms_v2_4": 0.0,
+    "concordance": 0.7989949748743719
+   }
+  },
+  "2.0 s": {
+   "2d": {
+    "group_all_right": 0.4271356783919598,
+    "hit_v1": 0.4472361809045226,
+    "false_alarms_v2_4": 0.006700167504187604,
+    "concordance": 0.9614740368509211
+   },
+   "2c ears": {
+    "group_all_right": 0.5226130653266332,
+    "hit_v1": 0.5728643216080402,
+    "false_alarms_v2_4": 0.01675041876046901,
+    "concordance": 0.9882747068676716
+   },
+   "2b ears": {
+    "group_all_right": 0.34673366834170855,
+    "hit_v1": 0.36683417085427134,
+    "false_alarms_v2_4": 0.006700167504187604,
+    "concordance": 0.9882747068676716
+   },
+   "old head": {
+    "group_all_right": 0.0,
+    "hit_v1": 0.0,
+    "false_alarms_v2_4": 0.0,
+    "concordance": 0.8107202680067002
+   }
+  }
+ },
+ "rule 4: shifted offsets, 2d - 2c ears group all-right >= +0.10": {
+  "point": 0.08710217755443883,
+  "ci95": [
+   0.02342092107033107,
+   0.1507834340385466
+  ],
+  "ci95_normal": [
+   0.024703837999599583,
+   0.14950051710927809
+  ],
+  "df": 60,
+  "dominant_factor": "second",
+  "n_clusters": {
+   "conv": 199,
+   "event": 36,
+   "second": 61
+  },
+  "margin": 0.1,
+  "pass": false,
+  "note": "all main-body S-move groups; the grounding report (v0.6) recomputes it without identity-dropped groups"
+ }
+}

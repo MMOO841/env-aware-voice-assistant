@@ -1,0 +1,12 @@
+# Keep text files LF everywhere (the sha256 values in models/README.md are computed on LF files)
+*.py text eol=lf
+*.md text eol=lf
+*.json text eol=lf
+*.txt text eol=lf
+*.sh text eol=lf
+*.ipynb text eol=lf
+*.pt binary
+*.npz binary
+*.flac binary
+*.png binary
+*.mp4 binary

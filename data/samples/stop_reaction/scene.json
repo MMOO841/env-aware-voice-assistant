@@ -1,0 +1,403 @@
+{
+ "scene_id": "stop_reaction",
+ "split": "train",
+ "part": "stop_reaction",
+ "part_title": "Stop, reaction",
+ "title": "A ring while the assistant talks: answer, keep going, \"Uh-huh.\", or silence",
+ "description": "The assistant is answering a question about bright stars when a phone rings. In version 1 the user answers the call (stop, and do not respond). In version 2 the user tells the assistant to keep talking, in version 3 the user only says \"Uh-huh.\", and in version 4 the user says nothing (continue in all three). In versions 2 to 4 the phone keeps ringing.",
+ "source_unit": "train_d00_sreact_00089",
+ "sample_rate": 16000,
+ "window_seconds": 8.0,
+ "room": "medium-Room145",
+ "noise": {
+  "dataset": "DEMAND",
+  "environment": "TBUS",
+  "channel": 1,
+  "offset_s": 132.273,
+  "snr_db": 15.18
+ },
+ "voices": {
+  "user": "af_alloy"
+ },
+ "assistant_voice_in_audio": false,
+ "licence": "CC BY-SA 3.0 (the mix contains DEMAND background noise); see CREDITS.md",
+ "versions": [
+  {
+   "version": "1",
+   "label": "user answers the call",
+   "audio": null,
+   "duration_s": 27.73,
+   "mix_gain_db": 0.0,
+   "speech": [
+    {
+     "id": "req",
+     "who": "user",
+     "text": "I have twelve minutes outside tonight; how can I compare the colors of bright stars?",
+     "start": 0.5,
+     "end": 5.16,
+     "position": "across",
+     "level_db": -4.0,
+     "voice": "kokoro:af_alloy"
+    },
+    {
+     "id": "line",
+     "who": "user",
+     "text": "Hi, are you calling about the room for rent?",
+     "start": 10.835,
+     "end": 13.375,
+     "position": "across",
+     "level_db": -4.0,
+     "voice": "kokoro:af_alloy"
+    }
+   ],
+   "assistant": [
+    {
+     "text": "Choose two bright stars at similar heights, well above the horizon. Spend a few minutes letting your eyes adjust, then alternate between them and note subtle reddish, white, or bluish differences.",
+     "start": 5.76,
+     "end": 13.575,
+     "full_end": 16.02,
+     "cut_off": true
+    }
+   ],
+   "sounds": [
+    {
+     "id": "ev",
+     "class": "phone",
+     "clip_id": "117566",
+     "start": 7.0,
+     "end": 10.335,
+     "position": "near",
+     "level_db": -3.05
+    }
+   ],
+   "points": [
+    {
+     "id": "stop_reaction|1|0",
+     "version": "1",
+     "k": 0,
+     "t": 13.575,
+     "window": "stop_reaction/v1_p0.flac",
+     "window_start": 5.575,
+     "assistant_speaking": true,
+     "asks": [
+      "stop",
+      "respond"
+     ],
+     "gold": {
+      "stop": "stop",
+      "respond": "not"
+     },
+     "line": "line",
+     "line_text": "Hi, are you calling about the room for rent?",
+     "category": "s_react",
+     "front_end": {
+      "transcripts": {
+       "req": "I have 12 minutes outside tonight. How can I compare the colors of bright stars?",
+       "line": "Hi, are you calling about the room for rent?"
+      },
+      "speaker_score": {
+       "req": 0.763,
+       "line": 0.7234
+      },
+      "speaker_tag": {
+       "req": "user",
+       "line": "user"
+      },
+      "detected_sounds": [
+       {
+        "class": "phone",
+        "start": 7.04,
+        "end": 10.24,
+        "peak": 1.0
+       }
+      ]
+     },
+     "situation_text": "The assistant is talking right now (for 7.8 s). It is saying: \u00abChoose two bright stars at similar heights, well above the horizon. Spend a few minutes letting your eyes adjust, then alternate between them and note subtle reddish, white, or bluish differences.\u00bb\nEarlier, oldest first:\n[0.5 s] the user: \u00abI have 12 minutes outside tonight. How can I compare the colors of bright stars?\u00bb\n[7.0 s] detected sound: phone ringing, 7.0 s to 10.2 s (confidence 1.00)\nJust now the user said: \u00abHi, are you calling about the room for rent?\u00bb",
+     "questions": [
+      "S: should the assistant STOP or CONTINUE talking?",
+      "R: should the assistant RESPOND to the line just said, or NOT?"
+     ]
+    }
+   ]
+  },
+  {
+   "version": "2",
+   "label": "user tells the assistant to keep going",
+   "audio": null,
+   "duration_s": 27.73,
+   "mix_gain_db": 0.0,
+   "speech": [
+    {
+     "id": "req",
+     "who": "user",
+     "text": "I have twelve minutes outside tonight; how can I compare the colors of bright stars?",
+     "start": 0.5,
+     "end": 5.16,
+     "position": "across",
+     "level_db": -4.0,
+     "voice": "kokoro:af_alloy"
+    },
+    {
+     "id": "line",
+     "who": "user",
+     "text": "Keep telling me, even with the phone ringing.",
+     "start": 10.835,
+     "end": 13.275,
+     "position": "across",
+     "level_db": -4.0,
+     "voice": "kokoro:af_alloy"
+    }
+   ],
+   "assistant": [
+    {
+     "text": "Choose two bright stars at similar heights, well above the horizon. Spend a few minutes letting your eyes adjust, then alternate between them and note subtle reddish, white, or bluish differences.",
+     "start": 5.76,
+     "end": 16.02,
+     "full_end": 16.02,
+     "cut_off": false
+    }
+   ],
+   "sounds": [
+    {
+     "id": "ev",
+     "class": "phone",
+     "clip_id": "117566",
+     "start": 7.0,
+     "end": 26.23,
+     "position": "near",
+     "level_db": -3.05
+    }
+   ],
+   "points": [
+    {
+     "id": "stop_reaction|2|0",
+     "version": "2",
+     "k": 0,
+     "t": 13.475,
+     "window": "stop_reaction/v2_p0.flac",
+     "window_start": 5.475,
+     "assistant_speaking": true,
+     "asks": [
+      "stop",
+      "respond"
+     ],
+     "gold": {
+      "stop": "continue",
+      "respond": null
+     },
+     "line": "line",
+     "line_text": "Keep telling me, even with the phone ringing.",
+     "category": "s_react",
+     "front_end": {
+      "transcripts": {
+       "req": "I have 12 minutes outside tonight. How can I compare the colors of bright stars?",
+       "line": "Keep telling me even with the phone ringing."
+      },
+      "speaker_score": {
+       "req": 0.763,
+       "line": 0.5912
+      },
+      "speaker_tag": {
+       "req": "user",
+       "line": "user"
+      },
+      "detected_sounds": [
+       {
+        "class": "phone",
+        "start": 7.04,
+        "end": 13.48,
+        "peak": 1.0
+       }
+      ]
+     },
+     "situation_text": "The assistant is talking right now (for 7.7 s). It is saying: \u00abChoose two bright stars at similar heights, well above the horizon. Spend a few minutes letting your eyes adjust, then alternate between them and note subtle reddish, white, or bluish differences.\u00bb\nEarlier, oldest first:\n[0.5 s] the user: \u00abI have 12 minutes outside tonight. How can I compare the colors of bright stars?\u00bb\n[7.0 s] detected sound: phone ringing, 7.0 s to 13.5 s (confidence 1.00)\nJust now the user said: \u00abKeep telling me even with the phone ringing.\u00bb",
+     "questions": [
+      "S: should the assistant STOP or CONTINUE talking?",
+      "R: should the assistant RESPOND to the line just said, or NOT?"
+     ]
+    }
+   ]
+  },
+  {
+   "version": "3",
+   "label": "user says \"Uh-huh.\"",
+   "audio": null,
+   "duration_s": 27.73,
+   "mix_gain_db": 0.0,
+   "speech": [
+    {
+     "id": "req",
+     "who": "user",
+     "text": "I have twelve minutes outside tonight; how can I compare the colors of bright stars?",
+     "start": 0.5,
+     "end": 5.16,
+     "position": "across",
+     "level_db": -4.0,
+     "voice": "kokoro:af_alloy"
+    },
+    {
+     "id": "line",
+     "who": "user",
+     "text": "Uh-huh.",
+     "start": 10.835,
+     "end": 11.815,
+     "position": "across",
+     "level_db": -4.0,
+     "voice": "kokoro:af_alloy"
+    }
+   ],
+   "assistant": [
+    {
+     "text": "Choose two bright stars at similar heights, well above the horizon. Spend a few minutes letting your eyes adjust, then alternate between them and note subtle reddish, white, or bluish differences.",
+     "start": 5.76,
+     "end": 16.02,
+     "full_end": 16.02,
+     "cut_off": false
+    }
+   ],
+   "sounds": [
+    {
+     "id": "ev",
+     "class": "phone",
+     "clip_id": "117566",
+     "start": 7.0,
+     "end": 26.23,
+     "position": "near",
+     "level_db": -3.05
+    }
+   ],
+   "points": [
+    {
+     "id": "stop_reaction|3|0",
+     "version": "3",
+     "k": 0,
+     "t": 12.015,
+     "window": "stop_reaction/v3_p0.flac",
+     "window_start": 4.015,
+     "assistant_speaking": true,
+     "asks": [
+      "stop",
+      "respond"
+     ],
+     "gold": {
+      "stop": "continue",
+      "respond": null
+     },
+     "line": "line",
+     "line_text": "Uh-huh.",
+     "category": "s_react",
+     "front_end": {
+      "transcripts": {
+       "req": "I have 12 minutes outside tonight. How can I compare the colors of bright stars?",
+       "line": "Uh-huh."
+      },
+      "speaker_score": {
+       "req": 0.763,
+       "line": 0.0171
+      },
+      "speaker_tag": {
+       "req": "user",
+       "line": "other"
+      },
+      "detected_sounds": [
+       {
+        "class": "phone",
+        "start": 7.04,
+        "end": 12.02,
+        "peak": 1.0
+       }
+      ]
+     },
+     "situation_text": "The assistant is talking right now (for 6.3 s). It is saying: \u00abChoose two bright stars at similar heights, well above the horizon. Spend a few minutes letting your eyes adjust, then alternate between them and note subtle reddish, white, or bluish differences.\u00bb\nEarlier, oldest first:\n[0.5 s] the user: \u00abI have 12 minutes outside tonight. How can I compare the colors of bright stars?\u00bb\n[7.0 s] detected sound: phone ringing, 7.0 s to 12.0 s (confidence 1.00)\nJust now a voice that is not the user said: \u00abUh-huh.\u00bb",
+     "questions": [
+      "S: should the assistant STOP or CONTINUE talking?",
+      "R: should the assistant RESPOND to the line just said, or NOT?"
+     ]
+    }
+   ]
+  },
+  {
+   "version": "4",
+   "label": "user stays silent",
+   "audio": null,
+   "duration_s": 27.73,
+   "mix_gain_db": 0.0,
+   "speech": [
+    {
+     "id": "req",
+     "who": "user",
+     "text": "I have twelve minutes outside tonight; how can I compare the colors of bright stars?",
+     "start": 0.5,
+     "end": 5.16,
+     "position": "across",
+     "level_db": -4.0,
+     "voice": "kokoro:af_alloy"
+    }
+   ],
+   "assistant": [
+    {
+     "text": "Choose two bright stars at similar heights, well above the horizon. Spend a few minutes letting your eyes adjust, then alternate between them and note subtle reddish, white, or bluish differences.",
+     "start": 5.76,
+     "end": 16.02,
+     "full_end": 16.02,
+     "cut_off": false
+    }
+   ],
+   "sounds": [
+    {
+     "id": "ev",
+     "class": "phone",
+     "clip_id": "117566",
+     "start": 7.0,
+     "end": 26.23,
+     "position": "near",
+     "level_db": -3.05
+    }
+   ],
+   "points": [
+    {
+     "id": "stop_reaction|4|0",
+     "version": "4",
+     "k": 0,
+     "t": 13.575,
+     "window": "stop_reaction/v4_p0.flac",
+     "window_start": 5.575,
+     "assistant_speaking": true,
+     "asks": [
+      "stop"
+     ],
+     "gold": {
+      "stop": "continue",
+      "respond": null
+     },
+     "line": null,
+     "line_text": null,
+     "category": "s_react",
+     "front_end": {
+      "transcripts": {
+       "req": "I have 12 minutes outside tonight. How can I compare the colors of bright stars?"
+      },
+      "speaker_score": {
+       "req": 0.763
+      },
+      "speaker_tag": {
+       "req": "user"
+      },
+      "detected_sounds": [
+       {
+        "class": "phone",
+        "start": 7.04,
+        "end": 13.58,
+        "peak": 1.0
+       }
+      ]
+     },
+     "situation_text": "The assistant is talking right now (for 7.8 s). It is saying: \u00abChoose two bright stars at similar heights, well above the horizon. Spend a few minutes letting your eyes adjust, then alternate between them and note subtle reddish, white, or bluish differences.\u00bb\nEarlier, oldest first:\n[0.5 s] the user: \u00abI have 12 minutes outside tonight. How can I compare the colors of bright stars?\u00bb\n[7.0 s] detected sound: phone ringing, 7.0 s to 13.6 s (confidence 1.00)\nNobody has just finished speaking.",
+     "questions": [
+      "S: should the assistant STOP or CONTINUE talking?"
+     ]
+    }
+   ]
+  }
+ ]
+}
