@@ -30,6 +30,8 @@ drafted the documentation and an outline of the video narration, which the autho
   plus the detector's measured precision), although they made the rivals stronger.
 - After the masking-noise result, chose to try an explicit doubt signal read from the model's own audio
   encoder.
+- Decided to repeat the whole recipe on a second backbone from another model family (Voxtral Mini 3B) to
+  test whether the method depends on VoxTurn.
 
 **What was generated.** Claude Code (model Claude Opus 5.5), working in the author's local repository
 and terminal, wrote all of the code in this repository. Every file in `src/` carries a file-level note
@@ -67,6 +69,9 @@ in checks or reviews. Examples:
   that uses the answers was written down before it was used, with a correction for what the rivals lose.
 - *Random starts.* A control model's result depended on its random initialisation. It is now reported
   as the mean over 8 fixed starts.
+- *Wrong results folder.* The first development report for the second backbone contained two rows that
+  were in fact backbone 1's, because one report function did not follow the redirected results folder.
+  Caught by comparing with backbone 1's report; fixed and re-run before the freeze.
 
 ## Models
 
@@ -74,6 +79,7 @@ in checks or reviews. Examples:
 |---|---|---|
 | VoxTurn (Yang Xiao, 2026) | Backbone of our decision model; fine-tuned with LoRA | huggingface.co/AustinXiao/voxturn, revision fe3d4a3; weights and inference code CC BY-NC 4.0. Our adapter and read-outs are built on it and are shared under the same non-commercial terms. |
 | Qwen3-ASR-0.6B | VoxTurn's own backbone | Qwen, Apache-2.0 |
+| Voxtral Mini 3B (Mistral AI; Liu et al., 2025) | Second backbone: the same recipe (LoRA, answer head, read-out) repeated to test whether the method depends on VoxTurn | huggingface.co/mistralai/Voxtral-Mini-3B-2507, revision 3060fe3; Apache-2.0. Its fine-tuned weights are not released in this repository. |
 | PANNs CNN14, decision-level attention (Kong et al., 2020) | Sound-event detector, fully fine-tuned on our classes; the fine-tuned checkpoint `sed.pt` (GitHub Release asset) is derived from the AudioSet checkpoint | github.com/qiuqiangkong/audioset_tagging_cnn (MIT), AudioSet checkpoint on Zenodo (CC BY 4.0) |
 | Whisper small, base and large-v3-turbo (OpenAI) | Transcripts (small for local systems, large-v3-turbo for the Gemini readers); the base encoder is fine-tuned in one rival | MIT |
 | ECAPA-TDNN (speechbrain/spkrec-ecapa-voxceleb, revision 0f99f2d) | Speaker tags (user / not the user) | Apache-2.0 |
@@ -110,3 +116,10 @@ bitsandbytes (MIT), scikit-learn, NumPy, SciPy and pandas (BSD-3-Clause), Speech
 soundfile (BSD-3-Clause), soxr (LGPL-2.1), librosa (ISC), torchlibrosa (MIT, used by the PANNs model code),
 Kokoro and misaki (Apache-2.0), espeak-ng through espeakng-loader (GPL-3.0), piper-tts
 (GPL-3.0-or-later), phonemizer (GPL-3.0), spaCy (MIT) and num2words (LGPL). Exact versions are in `requirements.txt` and `requirements-data.txt`.
+
+## Videos
+
+The slides in both videos were built with python-pptx and PowerPoint. Their icons are from Bootstrap
+Icons 1.11.3 (MIT licence, icons.getbootstrap.com). The audio clips played in the demo video are the
+training-split samples in [data/samples/](data/samples/), credited in
+[data/samples/CREDITS.md](data/samples/CREDITS.md).

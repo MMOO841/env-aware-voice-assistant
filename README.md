@@ -20,7 +20,9 @@ built as minimal pairs: versions of one scene differ only in the sound (a ring v
 unrelated kitchen sound) and keep the user's words identical. The model is compared with a tuned rule
 system, a local LLM, two Gemini models that read the same situation text, Gemini listening to the audio,
 and models trained only on text. Counterfactual tests then feed every system false detector labels at set
-confidence levels to check whether decisions follow the sound or the label.
+confidence levels to check whether decisions follow the sound or the label. To check that the method does
+not depend on one pretrained model, the whole recipe was repeated on a second, larger speech model from a
+different family (Voxtral Mini 3B).
 
 ## Quick Start
 
@@ -129,6 +131,42 @@ read-out trained on natural labels stays a label follower (respond grounded 0.10
 57.9 points [+50.0, +65.8]): the training labels, not the inputs, make the difference. The late-fusion
 model is also fairly grounded, but much less accurate on natural data (0.753).
 
+### Does it carry over to a second backbone?
+
+The whole recipe was repeated on Voxtral Mini 3B (about 4.7B parameters: a Whisper large-v3 encoder and a
+Ministral 3B language model), a different model family from VoxTurn (0.8B). Training data, read-out,
+threshold rule, report code and decision table stayed the same; only the model interface changed
+([evaluation protocol, section 17](docs/evaluation_protocol.md)). The second backbone was frozen on the
+development set and run once on the same test set. The rivals' answers are the same as above.
+
+| | Backbone 1: VoxTurn (0.8B) | Backbone 2: Voxtral Mini 3B |
+|---|---|---|
+| Main score (five-part mean) | 0.910 | 0.900 |
+| Sound-only parts | 0.843 | 0.862 |
+| Lead over the Gemini fast reader | +5.6 [+2.8, +8.3] | +4.5 [+1.5, +7.5] |
+| Lead over the Gemini strong reader | +5.3 [+1.8, +8.9] | +4.3 [+0.6, +8.0] |
+| Lead over Gemini listening | +12.4 [+8.9, +15.8] | +11.3 [+7.5, +15.2] |
+| Lead over the label reader, sound-only parts | +14.8 [+6.0, +23.7] | +16.7 [+7.9, +25.6] |
+| Gain over the same model's original read-out | +4.9 [+1.7, +8.1] | +4.8 [+1.4, +8.2] |
+| Respond grounded | 0.681 [0.579, 0.782] | 0.727 [0.637, 0.817] |
+| Stop grounded | 0.863 [0.795, 0.931] | 0.862 [0.808, 0.916] |
+| Original read-out, respond / stop grounded | 0.003 / 0.000 | 0.028 / 0.014 |
+
+On the second backbone, ours again beats every rival with the interval above 0, and the gains from
+listening and from the new read-out carry over. Its lead over the two Gemini readers (+4.5 and +4.3
+points), however, falls short of the 5-point margin fixed in advance. By the decision table (evaluation
+protocol, section 8.3) the verdict is therefore a tie with a practical advantage (no API call), not a
+clear win. The two backbones differ by about one point, with widely overlapping intervals.
+
+Two finer results of backbone 1 did not carry over. Reading the audio encoder second by second added 31.8
+points of stop grounding on backbone 1 but only 6.8 on backbone 2 (the bar fixed in advance was 10). A
+diagnostic on the development set shows why: backbone 2's whole-window audio summary still carries the
+timing of the sounds (the decision time is decoded with accuracy 0.76, against 0.41 for backbone 1; chance
+0.25). And on backbone 2, making only the ring-type labels unreliable in training already taught the
+read-out to tell a ring from a kitchen sound; backbone 1 needed every label family made unreliable (step
+2b). Speed, the noise test and the masking checks below were not repeated on backbone 2. Details:
+[docs/results.md](docs/results.md), section 8.
+
 ### More results in brief
 
 - **Iterations.** The read-out went through four versions (steps 2, 2b, 2c and 2d), each designed on the
@@ -152,6 +190,39 @@ model is also fairly grounded, but much less accurate on natural data (0.753).
 - **Speed.** Median time per decision on an RTX 5060 Laptop GPU (8 GB), front end included: 0.18 s for
   ours (the read-out adds one linear layer to the fine-tuned model), 0.10 s for the rule system and 0.31 s
   for the local LLM. The Gemini systems need a network call.
+
+## Related Work
+
+Recent benchmarks document the problem this project addresses:
+
+- **DuplexAct-Bench** (Xing et al., 2026; [arXiv 2609.39446](https://arxiv.org/abs/2609.39446)) tests 12
+  full-duplex voice systems on proactive behaviour. Speaking up without an explicit request, for example
+  after an alarm, is "difficult across systems, with a best BCR of only 8.8%".
+- **CARES** (Gibier et al., 2026; [arXiv 2610.10208](https://arxiv.org/abs/2610.10208)) finds that audio
+  language models "hear the sounds but miss how the speakers react to them": the best model reaches 39.0%
+  balanced accuracy over four reaction types, close to a text-only control (36.5%).
+- **VoxSafeBench** (Wang et al., 2026; [arXiv 2604.14548](https://arxiv.org/abs/2604.14548)) shows that
+  frontier speech models "can successfully detect these acoustic cues yet still fail to act on them
+  appropriately", including cues from the surrounding environment.
+
+Turn-taking work this project builds on or relates to:
+
+- **VoxTurn** (Xiao, 2026; [arXiv 2610.21150](https://arxiv.org/abs/2610.21150)) answers several
+  turn-taking questions in one forward pass with a 0.8B speech language model. It is the backbone we
+  fine-tune.
+- **Full-Duplex-Bench v1.5** (Lin et al., ICASSP 2026; [arXiv 2507.23159](https://arxiv.org/abs/2507.23159))
+  evaluates how full-duplex speech models handle overlap: user interruptions, backchannels, talking to
+  others and background speech.
+- **CoDeTT** (Shen et al., 2026; [arXiv 2603.25434](https://arxiv.org/abs/2603.25434)) is a context-aware
+  decision benchmark for turn-taking.
+- The patent **US 12,002,471 B2**, "Interruption detection and handling by digital assistants" (Rovi Guides;
+  filed 2020, granted 2024), describes an assistant that holds back its replies when, for example, a
+  doorbell rings or another voice speaks. It specifies rules without an evaluation. This project learns the
+  two decisions from data, compares them with rule and LLM systems, and tests whether they rest on the sound.
+
+Models and methods used: LoRA (Hu et al., ICLR 2022), PANNs (Kong et al., IEEE/ACM TASLP 2020), Whisper
+(Radford et al., ICML 2023) and Voxtral ([Liu et al., 2025](https://arxiv.org/abs/2507.13264)). All models,
+datasets and libraries, with their licences, are listed in [ATTRIBUTION.md](ATTRIBUTION.md).
 
 ## Individual Contributions
 

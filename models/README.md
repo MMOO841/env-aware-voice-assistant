@@ -109,3 +109,16 @@ copy the file there:
 
 The pipeline itself reads the thresholds from its freeze record (`results/main_v04/freeze.json`,
 written by `src/p1v4_freeze.py`). `settings.json` holds the same values.
+
+## Second backbone (not included)
+
+The files trained for the second backbone, Voxtral Mini 3B
+([docs/evaluation_protocol.md](../docs/evaluation_protocol.md), section 17), are not in this repository.
+Its freeze record lists:
+- the checkpoint `data/p1v4/runs_bb2/l1/l1_new.pt` (the LoRA adapter on Voxtral's language model and the
+  new answer head, 27.0 M parameters): 108 MB, more than GitHub's 100 MB limit for a single file;
+- the fitted read-outs, about 20 MB in all, of which ours (step 2d, `grounding/allclass2d/readouts_2d.npz`)
+  is 1.3 MB;
+- Voxtral's own weights (9.4 GB), which are downloaded, not trained.
+
+To train them again, see [SETUP.md](../SETUP.md), section 8.

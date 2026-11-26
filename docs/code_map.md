@@ -89,6 +89,27 @@ ears" or "sec8" means the same mean and max for each of the 8 one-second chunks 
 | `K6`, `K24`, `K48`; `think`, `nothink`; `_note`, `_prec`; `A0`, `A6` | Gemini settings: number of prompt examples; default thinking or none; prompt with the front-end note / with the note and the detector reliability table; Gemini listening with 0 or 6 audio examples |
 | `P1V4_FINAL_RUN=1` | Environment variable that, together with the freeze record, opens the sealed splits |
 
+### 1.4 Second backbone
+
+The recipe repeated on Voxtral Mini 3B ([evaluation_protocol.md](evaluation_protocol.md), section 17). The
+code names of sections 1.1 to 1.3 keep their meaning on backbone 2.
+
+| Code name | Meaning |
+|---|---|
+| `bb1`, `bb2`; "first backbone", "second backbone" | Backbone 1 (fine-tuned VoxTurn) and backbone 2 (fine-tuned Voxtral). `bb1` and `bb2` are also command arguments (`bb2_report.py settings bb1`, `bb2_diag.py d1 bb2`), keys in `results/main_v04_bb2/diag_offset_decoding_dev.json` and parts of the other diagnostic file names |
+| `BB1`, `BB2`; `RES1`, `RES2` | Run folders `data/p1v4/runs` and `data/p1v4/runs_bb2`; results folders `results/main_v04` and `results/main_v04_bb2`. Backbone 2's files keep backbone 1's names and layout |
+| `old head`, `L1` (backbone 2) | Backbone 2's original read-out: a new answer head trained with its LoRA adapter, from zero, since Voxtral has no option head of its own |
+| `ours`, `2d`, "main system" (backbone 2) | Backbone 2's step 2d read-out |
+| "L1 family" | The original read-out and every read-out on the same fine-tuned model, that is, everything that depends on the backbone (`L1_FAMILY_SETTINGS` in `bb2_test.py`) |
+| `VoxtralVT`, `L1vx` | Voxtral behind the interface of VoxTurn's wrapper; the model class of `p1v4_l1.py` built on it |
+| states, ears, per-second ears (backbone 2) | The same summaries as in section 1.2 at Voxtral's width: states 2 × 3,072 = 6,144 numbers; ears = mean and max of the window's 100 audio tokens (projector output), 6,144; per-second ears 8 × 2 × 3,072 = 49,152, with 12 or 13 tokens per second |
+| `train2c`, `devnat`, `devgrd_<condition>`, `devnoise_<level>_<condition>`, `devoff_d<offset>`, `trainnat`, `trainstep2`, `train2b` | Input sets of backbone 2's forward passes: training split with step 2c's labels; natural dev; dev grounding conditions; dev noise grid; dev moved decision points; training split with natural labels, step 2's labels, step 2b's labels |
+| `testnat`, `testgrd_<condition>`, `testoff_d<offset>`, `examples_test` | Test-run inputs: natural test, the ten grounding conditions, the four moved decision points; the original read-out's scoring pass |
+| smoke run, `smoke_dev`, `smoke-check` | `bb2_test.py forward dev 64`: the GPU path on the first 64 items of every dev set, compared with the stored dev outputs |
+| `Audit`, `deny=True` | Lists every file a report reads from backbone 1's folders; with `deny=True` (test) it stops if one of them depends on the backbone |
+| `freeze_bb2.json`, `NOT_RUN` | Backbone 2's freeze record; the "not run" note written where a report would show the noise analysis |
+| D1, D2 | The two dev diagnostics of `bb2_diag.py`: D1, does the decision time survive pooling of the ears; D2, audio information in the answer-option states without labels |
+
 ## 2. Files
 
 Stages: data generation, data checks, front end, training, read-outs, rivals, scoring, final test runner,
@@ -99,6 +120,11 @@ by others.
 
 | File | Stage | What it does |
 |---|---|---|
+| `bb2_diag.py` | Analyses (second backbone, dev only) | Model-internal diagnostics of the two differences found between the backbones, with the same code on both: does the decision time survive pooling of the ears (the time-resolved probe and its shuffled-seconds control re-run per backbone; decoding the moved decision point from pooled and per-second ears), and how much audio information do the answer-option states hold without labels. Descriptive; changes nothing frozen. |
+| `bb2_pipeline.py` | Read-outs (second backbone) | Builds every input set with backbone 1's code and checks it against backbone 1's stored inputs (`items`); runs backbone 2's forward passes and saves states, ears and per-second ears in backbone 1's file layout (`forward`); fits step 2d and every other read-out with backbone 1's fit code (`fit2d`, `fitall`). |
+| `bb2_report.py` | Analyses (second backbone, dev) | Points backbone 1's report code at backbone 2's run folder (`bind`): dev thresholds by the operating-point rule (`settings`; `settings bb1` checks the code on backbone 1's files), the dev grounding report, the moved-decision-point check (`offsets`; `offsets bb1` is its code check), the step 2d dev report and reliability step 1 on dev (`mirror`). Lists every file it reads from backbone 1's folders. |
+| `bb2_test.py` | Final test runner (second backbone) | Dev rehearsal of the test-day path, the GPU smoke run and its check, backbone 2's freeze record (`freeze make`, `check`, `amend`), the test inputs (checked against backbone 1's), the test forward passes and the reports with backbone 1's test-day code; stops unless every rival number equals backbone 1's test reports. |
+| `bb2_voxtral.py` | Training (second backbone) | Voxtral Mini 3B behind VoxTurn's interface (log-mel, audio tokens, prompt, situation text, isolating mask, answer head); `prep` writes the training and dev examples, `check` compares with Voxtral's own forward pass on the CPU, `train` and `score` run the recipe of `p1v4_l1.py` unchanged. |
 | `demo.py` | Demo (README Quick Start) | Runs the trained system end to end on the sample scenes in `data/samples/`: front end (recomputed or stored), situation text, the fine-tuned model with its original read-out and with ours, decisions at the frozen thresholds in `models/settings.json`, printed next to the right answers. |
 | `freesound_client.py` | Data generation (library) | Minimal Freesound API client (search, OAuth download of original files, token refresh) used by the two Freesound scripts; never prints a key or token; `check` tests the connection. |
 | `fsd50k_extract.py` | Data generation | Extracts the selected clips from FSD50K's multi-part zip archives, from local parts or from Zenodo by HTTP range requests, and checks the CRC-32 of every file. |
@@ -121,6 +147,7 @@ by others.
 | `p1v4_data.py` | Shared data access; test lock | One row per decision window with gold labels; loads train and dev; opens test and replication only with the freeze record and `P1V4_FINAL_RUN=1`; checks the split seals (`verify-seal`). |
 | `p1v4_detector_precision.py` | Rivals | How reliable the detector's labels are on the development set, written into `configs/b2_detector_reliability_v1.txt` for the Gemini readers' fairness prompts. |
 | `p1v4_dev_report.py` | Scoring (dev checkpoint) | Every system at its dev operating point on dev: five-part mean, parts, floors, sound-only part, intervals against the rivals, and the basic checks. |
+| `p1v4_ears_time_control.py` | Analyses (dev) | Control for the time-resolved audio-encoder diagnostic, added after its results: the same probe with the 8 seconds shuffled per window (all of them, or all but the last); `bb2_diag.py d1` re-runs it on both backbones. |
 | `p1v4_ears_time_diag.py` | Analyses | Time-resolved audio-encoder diagnostic (probes with whole-window, three-segment, last-second and per-second pooling) that led to step 2d; re-run on test as a described item. |
 | `p1v4_feats.py` | Front end | Speech cuts at the scripted times, Whisper-small transcripts, ECAPA speaker embeddings (with enrolment passages), the detector's sound list; checks that the stored windows equal the re-mixed audio. |
 | `p1v4_final.py` | Final test runner | Scores every local system on one split from its frozen files, without retraining; `readouts` runs the batch-of-8 forward pass and scores every read-out candidate; `compare dev` is the rehearsal check. |
@@ -326,6 +353,21 @@ step's inputs already exist.
 **I. Demo** (README Quick Start): `demo.py [--scene ID ...] [--front-end live|stored]` on the sample scenes,
 with the released weights (see SETUP.md).
 
+**J. Second backbone** (optional; evaluation_protocol.md, section 17; exact commands in SETUP.md, section 8).
+Needs the steps above on train and dev, since every input is rebuilt by backbone 1's code and checked
+against its stored files.
+
+49. `bb2_voxtral.py prep` and `check`; `bb2_pipeline.py items <set>` for every input set.
+50. On one 48 GB GPU: `bb2_voxtral.py train <out>`; `bb2_pipeline.py forward` for `devnat`, `devgrd`,
+    `devnoise`, `devoff` and `train2c`; `fit2d`; `fitall`; `forward` for `trainstep2`, `trainnat` and
+    `train2b`; `fitall` again.
+51. Dev evaluation: `bb2_report.py settings bb1` (code check), `settings`, `copy`, `offsets bb1` (code check),
+    `offsets`, `grounding`, `readout2d`, `mirror`.
+52. Dev diagnostics: `bb2_diag.py prep`, `d1 bb1`, `d1 bb2`, `offsets`, `d2`.
+53. Freeze and test run: `bb2_test.py rehearse`, `forward dev 64` and `smoke-check`, `freeze make`; then
+    `items`, `forward test` (GPU), `copy`, `readouts`, `report`, every one except `forward test` with
+    `P1V4_FINAL_RUN=1`.
+
 ## 4. Reading the comments
 
 - **Versions of the task.** "P1 v0.4" in a docstring is version 0.4 of the task design (two decisions:
@@ -352,12 +394,17 @@ with the released weights (see SETUP.md).
   work log before the run (the log itself is not part of this repository).
 - **Readings R1 to R12** in `p1v4_test_report.py` are the code's explicit readings of the decision table
   (evaluation_protocol.md, section 8.4).
+- **Second-backbone scripts.** In `bb2_*.py`, "docs/evaluation_protocol.md, section 17" points to the summary
+  of the second-backbone plan. "Laptop" and "GPU machine" (or "the GPU job") are the two computers used: data
+  preparation, reports and diagnostics ran on the laptop; training and the forward passes ran on one 48 GB
+  GPU elsewhere. The job scripts for that machine (`bb2_pack.py` and the two `.sbatch` files listed in
+  `bb2_test.py`) are not included; the code still names the machine in a few constants, in two hash-file
+  names and in the `freeze` sub-command that writes the GPU job's hash list.
 - **Scripts named in comments but not in `src/`.** `p1_asr.py`, `p1_latency.py` and `p1_plan_items.py`
   (version 0.3 transcripts, timing and item specs, replaced by `p1v4_feats.py`, `p1v4_latency.py` and
-  `p1v4_units.py`); `p1v4_grounding_v05.py` (replaced by `p1v4_grounding_v06.py`); `p1v4_noise_pilot.py`
-  (dev pilot of the noise analysis, replaced by `p1v4_noise_final.py`); `p1v4_detector_precision.py` (made
-  `configs/b2_detector_reliability_v1.txt`); `freesound_authorize.py` (one-time Freesound login that stores
-  the access token outside the repository); `p1v4_answer_only_update.py`, `p1v4_allclass_dev_report.py`,
-  `p1v4_control_seeds_dev.py`, `p1v4_smove_diag_dev.py`, `p1v4_ears_time_control.py`,
-  `p1v4_b2_memcheck.py`, `p1v4_b2_cache_diag.py` (one-off dev diagnostics). `voxturn.py` is VoxTurn's own
-  inference code and `models.py` the PANNs model code, both loaded from their downloads.
+  `p1v4_units.py`); `p1v4_grounding_v05.py` (replaced by `p1v4_grounding_v06.py`); `freesound_authorize.py`
+  (one-time Freesound login that stores the access token outside the repository);
+  `p1v4_answer_only_update.py`, `p1v4_allclass_dev_report.py`, `p1v4_control_seeds_dev.py`,
+  `p1v4_smove_diag_dev.py`, `p1v4_b2_memcheck.py`, `p1v4_b2_cache_diag.py` (one-off dev diagnostics).
+  `voxturn.py` is VoxTurn's own inference code and `models.py` the PANNs model code, both loaded from their
+  downloads.

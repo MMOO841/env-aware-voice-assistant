@@ -3,7 +3,8 @@
 How to install the project, run the trained system on the sample scenes (Quick Start), and repeat the
 full pipeline. Commands are for a bash shell run from the repository root (on Windows, Git Bash);
 differences in PowerShell are noted where they matter. Everything was tested on Windows 11 with Python
-3.12.10 and an NVIDIA GeForce RTX 5060 Laptop GPU (8 GB).
+3.12.10 and an NVIDIA GeForce RTX 5060 Laptop GPU (8 GB). Section 8 (optional) repeats the recipe on a
+second backbone, which needs a 48 GB GPU.
 
 | | Quick Start (sections 1 to 4) | Full pipeline (sections 1, 2 and 6) |
 |---|---|---|
@@ -460,3 +461,82 @@ python -c "import nbformat; from nbclient import NotebookClient; nb = nbformat.r
 
 The last line runs every cell and saves the outputs into the notebook. You can also open the notebook
 in Jupyter or VS Code with this environment as the kernel and run all cells.
+
+## 8. Optional: the second backbone (Voxtral Mini 3B)
+
+The whole recipe was repeated once on Voxtral Mini 3B
+([docs/evaluation_protocol.md](docs/evaluation_protocol.md), section 17). Nothing in sections 1 to 7 needs
+it. Its trained weights are not in this repository ([models/README.md](models/README.md)), so repeating it
+means training again.
+
+**Before you start:**
+- Backbone 2's inputs are rebuilt by backbone 1's code and checked against backbone 1's stored files, so the
+  pipeline of section 6 must have run on train and dev first, including the moved-decision-point step of 6.7
+  and the dev noise renders of `p1v4_reliability_dev.py` ([docs/code_map.md](docs/code_map.md), section 3,
+  step 44).
+- As for backbone 1, the test split is sealed and not in this repository, and the freeze and the test run
+  cannot be repeated from it alone: `bb2_test.py freeze make` lists the original layout (code under
+  `scripts/`, the plan document, backbone 1's freeze record) and stops here with "missing". The last block
+  below documents the order of the single run.
+
+**Model** (Apache-2.0, 9.4 GB; the code expects it in `data/models_dl/voxtral_mini_3b_3060fe3/`):
+
+```bash
+hf download mistralai/Voxtral-Mini-3B-2507 --revision 3060fe34b35ba5d44202ce9ff3c097642914f8f3 config.json generation_config.json model-00001-of-00002.safetensors model-00002-of-00002.safetensors model.safetensors.index.json params.json preprocessor_config.json tekken.json --local-dir data/models_dl/voxtral_mini_3b_3060fe3
+```
+
+**Packages:** `requirements.txt` is enough. transformers 5.19.0 loads Voxtral natively (its tokenizer from
+`tekken.json`, with no extra package) and peft 0.21.2 adds the LoRA adapter. The GPU runs used Linux with
+transformers 5.19.0, peft 0.21.2 and PyTorch 2.13.0 built for CUDA 12.6 (`torch==2.13.0+cu126` from
+<https://download.pytorch.org/whl/cu126>); that machine's NVIDIA driver (version 550) does not support
+CUDA 13.
+
+**GPU memory and time,** as measured on one NVIDIA L40S (48 GB), one GPU per job:
+- Memory: the model takes 8.1 GB in bf16; training peaked at 12.3 GB (13.0 GB reserved), and the longest
+  training window (742 text tokens) was checked before the first update. The 8 GB laptop GPU is too small.
+- Training: 2 epochs of 10,712 optimizer steps (8 windows each) at about 2.7 s per step; about 8 hours per
+  epoch with its dev scoring, 15.7 hours in all.
+- Forward passes: about 50 minutes for all dev sets and about 2.4 hours for each of the four training-split
+  sets (85,698 windows each). The whole GPU part (training, forward passes, fits) took about 26 hours and,
+  by our estimate, writes 25 to 30 GB of features.
+- Test run: 1 hour 55 minutes for the original read-out's scoring pass and the three forward passes. The
+  dev smoke run takes under 3 minutes.
+
+**Commands,** in order (steps marked GPU need the 48 GB card; the others run on the laptop GPU or the CPU):
+
+```bash
+python -X utf8 src/bb2_voxtral.py prep                   # training and dev examples, built by backbone 1's code
+python -X utf8 src/bb2_voxtral.py check                  # CPU, float32: our forward pass against Voxtral's own
+for S in train2c devnat devgrd devnoise devoff trainnat trainstep2 train2b; do python -X utf8 src/bb2_pipeline.py items $S; done
+
+python -X utf8 src/bb2_voxtral.py train data/p1v4/runs_bb2/l1          # GPU; keeps the epoch chosen on dev
+for S in devnat devgrd devnoise devoff train2c; do python -X utf8 src/bb2_pipeline.py forward $S; done   # GPU
+python -X utf8 src/bb2_pipeline.py fit2d                                # then: fitall
+for S in trainstep2 trainnat train2b; do python -X utf8 src/bb2_pipeline.py forward $S; done            # GPU
+python -X utf8 src/bb2_pipeline.py fitall
+
+python -X utf8 src/bb2_report.py settings bb1            # code check: backbone 1's 36 rehearsal thresholds
+python -X utf8 src/bb2_report.py settings                # backbone 2's thresholds (results/main_v04_bb2/settings_dev.json)
+python -X utf8 src/bb2_report.py copy                    # the rivals' dev inputs (they do not depend on the backbone)
+python -X utf8 src/bb2_report.py offsets bb1             # code check on backbone 1 (runs VoxTurn on the laptop GPU)
+python -X utf8 src/bb2_report.py offsets                 # then: grounding, readout2d, mirror
+
+python -X utf8 src/bb2_diag.py prep                      # then: d1 bb1, d1 bb2, offsets, d2 (dev only, descriptive)
+
+python -X utf8 src/bb2_test.py rehearse                  # the test-day report path on dev
+python -X utf8 src/bb2_test.py forward dev 64            # GPU smoke run; then: smoke-check
+python -X utf8 src/bb2_test.py freeze make               # results/main_v04_bb2/freeze_bb2.json (clean git tree; never overwritten)
+P1V4_FINAL_RUN=1 python -X utf8 src/bb2_test.py items
+python -X utf8 src/bb2_test.py forward test              # GPU
+P1V4_FINAL_RUN=1 python -X utf8 src/bb2_test.py copy     # then, also with P1V4_FINAL_RUN=1: readouts, report
+```
+
+Notes:
+- `bb2_diag.py prep` first compares two sha256 files written when backbone 2's per-second training features
+  (`data/p1v4/runs_bb2/grounding/allclass2d/sec8_train.npz`) were copied from the GPU machine (see `prep` in
+  `src/bb2_diag.py`). On a single machine, write that file's sha256 into both.
+- On a separate GPU machine the windows may be FLAC copies of the WAV files: the code prefers a `.flac` next
+  to each `.wav` (`local_path` in `src/bb2_voxtral.py`).
+- `bb2_voxtral.py train <out> --limit N` is a short trial on N windows (memory and speed).
+- Other `freeze` forms: `check` verifies the record, `amend <files> --reason <text>` re-hashes fixed files
+  after a bug fix, and one more writes the hash list that the GPU job checks when it runs on another machine.

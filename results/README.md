@@ -2,8 +2,9 @@
 
 This folder holds the aggregate result files behind the README, [docs/results.md](../docs/results.md) and the
 figures made by [notebooks/figures.ipynb](../notebooks/figures.ipynb). They are JSON files written by the
-evaluation scripts, kept at the path the code writes them to (`results/main_v04/<name>`). They contain only
-aggregate numbers: no audio, no transcripts and no per-item outputs of the test or replication split.
+evaluation scripts, kept at the path the code writes them to (`results/main_v04/<name>`; for the second
+backbone, `results/main_v04_bb2/<name>`). They contain only aggregate numbers: no audio, no transcripts and
+no per-item outputs of the test or replication split.
 
 Splits: `dev` is the development set (all tuning), `test` the held-out test set (used once, after every
 setting was fixed), `replication` a second held-out split used once for the masked-sound checks.
@@ -22,6 +23,18 @@ setting was fixed), `replication` a second held-out split used once for the mask
 | `mirror_vs_ears_newnoise.json` | dev + replication | Least-squares summaries of `mirror` against `ear_damage`: `summary_demand` pools the development and replication noise types, `summary_new_types` covers four appliance noise types from a second noise corpus. | `src/p1v4_mirror_vs_ears.py` | Figure (d) notes, docs/iterations.md |
 | `newnoise_replication.json` | replication | The reliability checks repeated with the four appliance noise types (not confirmatory): `cells`, `claims`, `by_type`, `mirror_cells`, `summary`. | `src/p1v4_newnoise.py` | docs/iterations.md |
 | `latency_dev.json` | dev | Median and 90th-percentile time per component and the median time per decision of each system (`totals_median_s`, seconds) on an RTX 5060 Laptop GPU. | `src/p1v4_latency.py` | README speed table |
+
+## Files of the second backbone (`main_v04_bb2/`)
+
+The same recipe on Voxtral Mini 3B ([docs/evaluation_protocol.md](../docs/evaluation_protocol.md), section
+17). Backbone 1 is VoxTurn, the model of every file above.
+
+| File | Split | What it holds | Written by | Used for |
+|---|---|---|---|---|
+| `decision_test_final.json` | test | The main comparison, with the same keys as `main_v04/decision_test_final.json` plus `notes`. `ours` is backbone 2's step 2d read-out, `L1` is backbone 2's original read-out (a new answer head trained with its LoRA adapter). Every other entry of `systems` comes from backbone 1's test-day outputs, unchanged: the script stops unless each one equals the backbone 1 file. `notes`: what `ours` and `L1` mean here, and that row 5's practical advantage reads backbone 1's laptop timings (`main_v04/latency_dev.json`), because backbone 2's speed was not measured. | `src/bb2_test.py report` (through `src/p1v4_test_report.py`) | README and docs/results.md, section 8 |
+| `grounding_v06_test.json` | test | The matched grounding test and natural-data analyses for backbone 2, with the same keys as `main_v04/grounding_v06_test.json`. `2d` and `old head` are backbone 2's read-outs; every rival entry repeats backbone 1's test-day outputs. Criteria that were not run for backbone 2 (the noise criterion) say so. | `src/bb2_test.py report` (through `src/p1v4_grounding_v06.py`) | README and docs/results.md, section 8 |
+| `offsets_2d_test.json` | test | "Stop, movement" with the decision point moved to 0.5 to 2 s after the door onset, for backbone 2's read-outs (`by_offset`) and the criterion on shifted offsets. | `src/bb2_test.py report` (through `src/bb2_report.py`) | docs/results.md, section 8 |
+| `diag_offset_decoding_dev.json` | dev | Model-internal check, for each backbone (`backbones.bb1`, `backbones.bb2`): can the time from the door onset to the decision point (0.5, 1.0, 1.5 or 2.0 s; `offsets_after_door_onset_s`) be decoded from the audio summary of the window? Features: `pooled ears` (mean and max over the whole window) or `per-second ears`, at full width or reduced to 64 principal components (`pca64`). `version 1` uses the leaving version of each "stop, movement" group, `versions 1 and 3` adds the version without the knock. `accuracy` (4 classes, chance 0.25) and `mean_abs_error_s` (seconds), each as mean, min and max over 5 seeds of a 5-fold cross-validation grouped by unit. | `src/bb2_diag.py offsets` | docs/results.md, section 8 |
 
 ## Keys used in the files
 
@@ -75,3 +88,7 @@ The numbers are unchanged. Every file was re-written with LF line endings and th
 | `mirror_vs_ears_replication.json` | `design` named an internal log file and time; replaced by "design written down before computing; descriptive, not one of the registered checks". |
 | `newnoise_replication.json` | `note` named the path of an internal plan document; that reference was replaced by "design written down before the run" (the rest of the note is kept). |
 | `noise_test.json`, `mirror_vs_ears_newnoise.json`, `latency_dev.json` | No change. |
+| `main_v04_bb2/decision_test_final.json` | The same edit of `readings` as for backbone 1's file (its readings were identical before the edit). |
+| `main_v04_bb2/grounding_v06_test.json` | The same renaming of the 61 test door recordings as for backbone 1 (`door recording 01` to `door recording 61`; the recordings are in the same order in both files, so equal names mean the same recording). Two notes named the path of an internal plan document; replaced by "docs/evaluation_protocol.md, section 17". |
+| `main_v04_bb2/offsets_2d_test.json` | Removed `per_unit_right` (per-unit test results keyed by test unit IDs), as for backbone 1. |
+| `main_v04_bb2/diag_offset_decoding_dev.json` | No change. |

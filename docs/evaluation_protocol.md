@@ -12,7 +12,9 @@ The rules come from three fixed documents that the code cites by section number:
 before the freeze) and the grounding measurement package ("package", final version 0.6). Where they
 conflict, the amendment's section 13 and the package's section 15 take precedence, and the amendment takes
 precedence over the plan. This file is a summary of all three, not a translation. Section 16 maps every
-section number cited in the code to the heading below that explains it.
+section number cited in the code to the heading below that explains it. Section 17 summarises a later plan,
+written after the test and before its own single test run, that repeated the same recipe on a second
+backbone.
 
 Systems and data parts are named by what they are; their code names are listed in
 [code_map.md](code_map.md). The short ids of criteria (such as G1a) and of registered claims (such as M1)
@@ -41,7 +43,8 @@ are kept in parentheses because the code and result files use them. "Points" are
 - **Noise:** the test's sound-only parts were re-run with louder background noise under one fixed criterion
   (G5).
 - **Afterwards:** the replication split was used once for a registered reliability check (59 claims, 19
-  key), and a labelled check with new noise types followed.
+  key), and a labelled check with new noise types followed. The whole recipe was also repeated once on a
+  second backbone from another model family (section 17).
 
 ## 1. Task and decision points
 
@@ -1416,6 +1419,7 @@ for the grounding package (its file was also called a plan); those are listed se
 | "plan 4.1-4.2", "plan 4.2" in `p1v4_grounding.py` (package sections) | 10.1 Groups; 10.2 Conditions |
 | "plan 4.6" in `p1v4_grounding.py` (package section) | 10.4 Input-identity check and numerical noise floor |
 | "plan 7.2" in `p1v4_grounding.py` (package section) | 10.6 Read-outs compared |
+| "docs/evaluation_protocol.md, section 17" in the `bb2_*.py` scripts; the second-backbone plan ("plan" in the freeze part of `bb2_test.py`, which names the plan's file in its code and in its "not run" notes) | 17 Second backbone (Voxtral Mini 3B) |
 
 Two kinds of references point outside this file. In the dev-only reliability scripts
 (`p1v4_reliability_dev.py`, `p1v4_reliability_fix*.py`, the two `*_facts.py` scripts), "plan section 5", "plan
@@ -1423,3 +1427,90 @@ section 8", "plan 1.2", "the plan's four criteria" and "criteria 1-6" refer to t
 summarised in [iterations.md](iterations.md) ("plan summarised in docs/iterations.md"). Labels such as "review
 M5", "review item 3" or "Review 1" are findings of the independent AI reviews of the plans and the code (see
 [ATTRIBUTION.md](../ATTRIBUTION.md)), not rule sections.
+
+## 17. Second backbone (Voxtral Mini 3B)
+
+Every section above uses one pretrained speech model, VoxTurn (built on Qwen3-ASR-0.6B). Does the method
+depend on that model? The whole recipe was repeated once on a speech LM from another family: the training
+recipe, read-outs, threshold rule, report code and criteria of sections 5 to 12 stayed the same (17.2); only
+the model interface changed (17.3). The plan was written on 2026-11-24, before training; its test-run part
+on 2026-11-25, before any test data were read for this backbone. "Backbone 1" is VoxTurn, "backbone 2"
+Voxtral. Code: the `bb2_*.py` scripts ([code_map.md](code_map.md)); commands: [SETUP.md](../SETUP.md),
+section 8.
+
+### 17.1 Model and choice
+
+- **Model:** Voxtral Mini 3B (`mistralai/Voxtral-Mini-3B-2507`, revision 3060fe3, Apache-2.0, about 4.7B
+  parameters): a Whisper large-v3 encoder (50 frames per second), a projector that joins 4 frames into one
+  audio token (12.5 per second) and the Ministral 3B language model (30 layers, width 3,072).
+- **Why:** every part differs from backbone 1 (AuT encoder, Qwen3-0.6B language model), so a result found on
+  both is less likely to belong to one model; the transformers version in use supports it natively.
+- **Check first, rule written before it ran:** the linear probe that had checked backbone 1's audio encoder
+  (phone, doorbell, knock, a similar household sound, no event; 200 training and 80 dev windows per class)
+  had to reach a dev accuracy at most 10 points below backbone 1's encoder, otherwise a named fallback model
+  would be checked. Voxtral passed. The probe script is not in this repository.
+
+### 17.2 What stayed the same
+
+- Training split, situation texts (most recent 1,024 tokens), questions and phrasings, built by backbone 1's
+  code; the fine-tuning recipe of the original read-out (LoRA rank 16, alpha 32, on every linear layer of the
+  language model; 2 epochs; micro-batch 1 × 8 accumulation; AdamW 1e-4 without weight decay; 300 warm-up
+  steps, then linear decay; clipping 1.0; bf16; one phrasing per sample; epoch kept by section 6.1's rule).
+- The decorrelated training labels of steps 2 to 2d (section 5.2) and every read-out with its own fit code:
+  ours, the natural-label control and its 8 starts, the other read-outs of section 10.6, the audio-encoder
+  probe. Thresholds by the operating-point rule; batching as in sections 10.4 and 12.2.
+- The report code and every criterion and bar of sections 8 and 10, the decision table of section 8.3
+  included. Rivals and references do not depend on the backbone, so their stored outputs were reused; on
+  test the report stops unless every rival number equals backbone 1's test report.
+
+### 17.3 What had to change (interface only)
+
+Each change follows from Voxtral's architecture; none is a new choice.
+- **Input:** Voxtral's own chat-template format (start, instruction and audio-start tokens, the audio
+  tokens, then the situation text and the question). Its processor pads every input to 30 s, so the 8 s
+  window is padded to 30 s: 375 audio tokens, the first 100 of which are the window.
+- **Answer head:** Voxtral has none, so the new head (as on backbone 1, one score per option) is trained
+  from scratch, starting at zero; on backbone 1 it was copied from VoxTurn's own head.
+- **Adapter:** the new LoRA is the only adapter (on backbone 1, VoxTurn's own LoRA stays active under it).
+- **Ears:** as on backbone 1, the audio tokens the language model reads, here the projector output (width
+  3,072), only the window's 100 tokens; a token belongs to the second that holds its centre, so a second has
+  12 or 13 tokens (backbone 1: 13).
+- **Attention:** scaled-dot-product instead of eager; the mask that keeps two questions apart is unchanged.
+
+### 17.4 Checks before the run
+
+- CPU, float32: our hand-built input matched Voxtral's native forward pass at the answer positions to
+  rounding error; our log-mel equalled Voxtral's feature extractor; both questions in one pass matched two
+  separate passes.
+- Every input set (training, dev, the ten grounding conditions, the dev noise grid of section 13.1, later
+  the test sets) was regenerated by backbone 1's code and matched item by item to backbone 1's stored inputs
+  (ids, questions, answers, text hashes where stored); the moved-point sets reuse backbone 1's windows.
+- Run on backbone 1's own files, the redirected report code reproduced all 36 thresholds of backbone 1's
+  rehearsal record and its moved-point result exactly. Each report lists what it read from backbone 1's
+  folders; on test it stops if any file depends on the backbone.
+- A GPU smoke run of the test-run code on 64 items of every dev set equalled the stored dev outputs. One
+  independent AI review of that code preceded the freeze; its findings were fixed or listed in 17.6.
+
+### 17.5 Order
+
+1. Training and the training and dev forward passes on one 48 GB GPU; then the read-out fits.
+2. Dev evaluation with backbone 1's report code (thresholds, grounding test, moved decision points, dev
+   noise grid) and two descriptive dev diagnostics of the differences found: does the whole-window audio
+   summary keep the decision time, and how much audio information do the answer-option states hold without
+   labels?
+3. Freeze: a separate record (checkpoint, base-model files, read-outs, settings, dev results, code); its
+   settings may differ from backbone 1's only for backbone 2's own model and read-outs. Written once;
+   changed only by the amend command of section 12.7.
+4. One test run, 2026-11-25: inputs built under the test lock (section 12.5) and checked, forward passes on
+   the GPU, then read-out scores, the moved-decision-point check, the decision report and the grounding
+   report.
+
+### 17.6 Not run for backbone 2
+
+- The noise analysis of section 11 (G5) and the reliance table that reads it; the reports say "not run".
+- Speed. Row 5's practical advantage (section 8.3) reads backbone 1's laptop timings (it matters only for
+  local rivals; API rivals always count).
+- The audio-encoder time diagnostic on test (step 9 of section 12.6); it ran on dev only.
+- The replication-split checks of sections 13 and 14.
+- Known difference besides the backbone: the moved-decision-point features are stored in float16 (as on
+  dev).

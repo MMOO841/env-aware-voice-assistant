@@ -466,6 +466,36 @@ original read-out (+0.7 and +0.5 points) and a clear win for the final read-out 
   confident false labels on unfamiliar appliance noise (45 of 48 files have a frame of at least 0.5 for a target
   class), so confident false labels also occur naturally.
 
-### 2026-11-24 to now: second backbone
+### 2026-11-24 to 2026-11-25: second backbone
 
-- A second pretrained backbone, Voxtral Mini 3B, trained and evaluated with the same recipe: in progress.
+- **Why.** The author decided to test whether the method depends on VoxTurn. The whole recipe was therefore
+  repeated on a second pretrained backbone, with no new design choices.
+- **Choice.** Voxtral Mini 3B (about 4.7B parameters: a Whisper large-v3 encoder and a Ministral 3B language
+  model; Apache-2.0). It shares neither the encoder family nor the language-model family with VoxTurn, and the
+  installed Transformers version supports it natively.
+- **What was kept and what changed.** Training data, decorrelated labels, read-out, operating-point rule,
+  report code, criteria and decision table stayed the same. Only the interface changed: Voxtral's own input
+  format, a new answer head trained from scratch (Voxtral has none), and the audio tokens read for the
+  per-second summary (evaluation protocol, section 17). Before training, the inputs were rebuilt by backbone
+  1's code and matched item by item with backbone 1's stored inputs, and the report code reproduced all 36 of
+  backbone 1's thresholds from its files.
+- **Development set (2026-11-25).** Natural mean 0.944 (original read-out 0.937). Respond grounding passed;
+  stop grounding was 0.764, but its interval was too wide to pass (few development groups). As on the test
+  set later, the
+  per-second gain and the identity step did not pass, and the decision table gave row 5. A bug was found in
+  the first development report: two of its rows came from backbone 1, because one report function did not
+  follow the redirected results folder. It was found by comparing with backbone 1's report, fixed and
+  re-run.
+- **Diagnostics (development set, descriptive).** Before computing them, two guesses were written down for
+  the two differences. The first held: backbone 2's whole-window audio summary keeps the timing of the sounds
+  (decision time decoded with accuracy 0.76, against 0.41 on backbone 1). The second did not: backbone 2's
+  last-layer states do not carry more event information than backbone 1's.
+- **Freeze and test (2026-11-25).** 157 files were hashed (checkpoint, base model, read-outs, settings,
+  development results and code). A GPU smoke run reproduced the stored development outputs exactly. Then the
+  test set was run once (about 2 hours on one 48 GB GPU), reusing the rivals' answers from the first test
+  run. Result: decision table row 5 (backbone 1: row 1). Every rival is beaten with the interval above 0, but
+  the leads over the two Gemini readers (+4.5 and +4.3 points) are below the 5-point margin. Grounding carries
+  over (respond 0.727, stop 0.862); the per-second gain and the identity step do not (README; results,
+  section 8).
+- **Not repeated on backbone 2:** speed, the noise test and the masking checks on the replication split. The
+  project's scope was closed on 2026-11-26 with these results.
