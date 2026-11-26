@@ -5,7 +5,7 @@
 **Roles.** The author defined the task and its scope, made the key design choices listed below, approved
 every experiment before it was run, and checked the results. Claude Code (Anthropic) implemented these
 decisions: it wrote the code, ran the experiments, proposed options for the author to choose from, and
-drafted the documentation and an outline of the video narration, which the author revised.
+drafted the documentation and the video narration scripts, which the author revised.
 
 **Key decisions by the author.** Code comments record them with dates ("approved by the author",
 "chosen by the author").
@@ -35,8 +35,8 @@ drafted the documentation and an outline of the video narration, which the autho
 
 **What was generated.** Claude Code (model Claude Opus 5.5), working in the author's local repository
 and terminal, wrote all of the code in this repository. Every file in `src/` carries a file-level note
-saying so. Claude also drafted the documentation (README.md, SETUP.md, this file and `docs/`) and an
-outline of the video narration and slides; the author edited them and recorded the videos.
+saying so. Claude also drafted the documentation (README.md, SETUP.md, this file and `docs/`), the video
+slides and the narration scripts; the author edited them and recorded the videos.
 
 **Independent AI reviews.** Before the test set was opened, the plan, the code and the analysis were
 reviewed by fresh Claude subagents (Claude Fable 5.2 or Claude Opus 5.5) that had only the documents and
@@ -122,4 +122,5 @@ Kokoro and misaki (Apache-2.0), espeak-ng through espeakng-loader (GPL-3.0), pip
 The slides in both videos were built with python-pptx and PowerPoint. Their icons are from Bootstrap
 Icons 1.11.3 (MIT licence, icons.getbootstrap.com). The audio clips played in the demo video are the
 training-split samples in [data/samples/](data/samples/), credited in
-[data/samples/CREDITS.md](data/samples/CREDITS.md).
+[data/samples/CREDITS.md](data/samples/CREDITS.md). The author recorded the narration with PowerPoint's recording
+feature; the walkthrough video was then re-encoded with ffmpeg (libx264) to fit GitHub's file-size limit.

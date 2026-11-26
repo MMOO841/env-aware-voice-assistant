@@ -40,8 +40,8 @@ installation, the complete pipeline and the figures are in [SETUP.md](SETUP.md).
 
 ## Video Links
 
-- Demo (3-5 min): TODO
-- Technical walkthrough (5-10 min): TODO
+- Demo (4:33, for a general audience): [videos/demo.mp4](videos/demo.mp4)
+- Technical walkthrough (9:10, code, models and evaluation): [videos/walkthrough.mp4](videos/walkthrough.mp4)
 
 ## Evaluation
 
